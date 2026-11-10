@@ -47,6 +47,16 @@ export function SignupForm() {
       return;
     }
 
+    // Statische Version (z. B. GitHub Pages): kein Server vorhanden – keine Anmeldung simulieren.
+    if (process.env.NEXT_PUBLIC_STATIC_EXPORT === "1") {
+      setStatus({
+        kind: "error",
+        message:
+          "Die Vormerkliste wird gerade eingerichtet und nimmt noch keine Anmeldungen entgegen. Bitte schau in Kürze wieder vorbei.",
+      });
+      return;
+    }
+
     setStatus({ kind: "submitting" });
     try {
       const res = await fetch("/api/subscribe", {
