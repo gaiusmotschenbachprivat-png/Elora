@@ -1,25 +1,9 @@
 import Link from "next/link";
 
-export function Wordmark({
-  className = "",
-  tone = "dark",
-  asLink = true,
-}: {
-  className?: string;
-  tone?: "dark" | "light";
-  asLink?: boolean;
-}) {
-  const inner = (
-    <span
-      className={`wordmark text-[1.45rem] leading-none sm:text-[1.6rem] ${tone === "light" ? "text-cream-50" : "text-ink"} ${className}`}
-    >
-      ELORA
-    </span>
-  );
-  if (!asLink) return inner;
+export function Wordmark({ className = "", tone = "dark" }: { className?: string; tone?: "dark" | "light" }) {
   return (
-    <Link href="/" aria-label="ELORA – zur Startseite" className="inline-flex items-center py-2">
-      {inner}
+    <Link href="/" aria-label="ELORA – Startseite" className={`inline-flex items-center py-2 ${className}`}>
+      <span className={`wordmark text-[1.3rem] leading-none lg:text-[1.45rem] ${tone === "light" ? "text-ivory-50" : "text-ink"}`}>ELORA</span>
     </Link>
   );
 }

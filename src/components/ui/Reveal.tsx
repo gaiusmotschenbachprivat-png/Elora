@@ -5,40 +5,43 @@ import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 type RevealProps = {
   as?: ElementType;
   delay?: number;
+  /** "fade" = Einblenden + Anheben, "image" = Bildöffnung (clip-path + Zoom) */
+  variant?: "fade" | "image";
   className?: string;
   children: ReactNode;
-};
+} & Record<string, unknown>;
 
-/** Dezentes Einblenden beim Scrollen. Respektiert prefers-reduced-motion (siehe globals.css). */
-export function Reveal({ as: Tag = "div", delay = 0, className = "", children }: RevealProps) {
+/**
+ * Dezentes Einblenden beim Scrollen. Inhalte sind ohne JavaScript und bei
+ * prefers-reduced-motion sofort sichtbar (siehe `.js .reveal` in globals.css).
+ */
+export function Reveal({ as: Tag = "div", delay = 0, variant = "fade", className = "", children, ...rest }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    const show = () => node.setAttribute("data-visible", "true");
-    if (typeof IntersectionObserver === "undefined") {
-      show();
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
+    const show = () => node.setAttribute("data-in", "");
+    if (typeof IntersectionObserver === "undefined") return show();
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
           show();
-          observer.disconnect();
+          io.disconnect();
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
+      { rootMargin: "0px 0px -6% 0px", threshold: 0.08 },
     );
-    observer.observe(node);
-    return () => observer.disconnect();
+    io.observe(node);
+    return () => io.disconnect();
   }, []);
 
   return (
     <Tag
       ref={ref}
-      className={`reveal ${className}`}
-      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
+      className={`${variant === "image" ? "reveal-img" : "reveal"} ${className}`}
+      style={{ "--d": `${delay}ms` } as React.CSSProperties}
+      {...rest}
     >
       {children}
     </Tag>

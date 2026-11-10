@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { legal, nav, signupHref, site } from "@/lib/site";
-import { IconInstagram, IconMail, IconPinterest, IconTikTok } from "@/components/ui/Icons";
-import { Wordmark } from "./Wordmark";
+import { footerNav, site } from "@/lib/site";
+import { IconInstagram, IconPinterest, IconTikTok } from "@/components/ui/Icons";
 
 const socials = [
   { label: "Instagram", Icon: IconInstagram },
@@ -9,86 +8,50 @@ const socials = [
   { label: "Pinterest", Icon: IconPinterest },
 ];
 
-export function Footer() {
-  const year = new Date().getFullYear();
+function Col({ title, items }: { title: string; items: ReadonlyArray<{ label: string; href: string }> }) {
   return (
-    <footer id="kontakt" className="grain relative overflow-hidden bg-forest-900 text-cream/80">
-      {/* dezente Landschaftslinie */}
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-x-0 top-0 h-16 w-full text-forest opacity-60"
-      >
-        <path
-          d="M0 0 H1440 V40 C 1200 90 980 30 760 62 S 280 70 0 30 Z"
-          fill="currentColor"
-        />
-      </svg>
-
-      <div className="container-elora relative pt-24 pb-10 lg:pt-28">
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-4">
-            <Wordmark tone="light" />
-            <p className="mt-5 max-w-xs text-[0.95rem] leading-relaxed text-cream/65">
-              {site.category}. Durchdachte Produkte für einen bewussten Alltag – klar, ehrlich und
-              mit Anspruch an Qualität.
-            </p>
-            <Link
-              href={signupHref}
-              className="group mt-8 inline-flex items-center gap-2 border-b border-citrus/60 pb-1 text-[0.92rem] text-cream-50 transition-colors hover:border-citrus hover:text-white"
-            >
-              Für den Launch vormerken
-              <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
+    <nav aria-label={title}>
+      <h2 className="spec text-ivory/45">{title}</h2>
+      <ul className="mt-5 space-y-2.5 text-[0.92rem]">
+        {items.map((i) => (
+          <li key={i.href}>
+            <Link href={i.href} className="text-ivory/80 transition-colors hover:text-ivory-50">
+              {i.label}
             </Link>
-          </div>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
 
-          <nav aria-label="Footer-Navigation" className="lg:col-span-2">
-            <h2 className="eyebrow text-cream/45">Navigation</h2>
-            <ul className="mt-5 space-y-3 text-[0.93rem]">
-              {nav.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="transition-colors hover:text-white">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <nav aria-label="Rechtliches" className="lg:col-span-2">
-            <h2 className="eyebrow text-cream/45">Rechtliches</h2>
-            <ul className="mt-5 space-y-3 text-[0.93rem]">
-              {legal.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="transition-colors hover:text-white">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
+export function Footer() {
+  return (
+    <footer className="grain relative overflow-hidden bg-forest-900 text-ivory/80 pb-[env(safe-area-inset-bottom,0px)]">
+      <div className="frame relative z-[2] pt-20 lg:pt-28">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
-            <h2 className="eyebrow text-cream/45">Kontakt</h2>
-            <p className="mt-5 flex items-start gap-3 text-[0.93rem]">
-              <IconMail size={20} className="mt-0.5 shrink-0 text-citrus" />
-              <span>
-                Kontaktadresse folgt{" "}
-                <span className="text-cream/45">[Platzhalter – wird vor Veröffentlichung ergänzt]</span>
-              </span>
+            <p className="font-display text-[2rem] leading-[1.1] text-ivory-50 italic lg:text-[2.4rem]">
+              Bewusst beginnen.
+              <br />
+              Jeden Morgen.
             </p>
-            <h2 className="eyebrow mt-10 text-cream/45">Folge ELORA</h2>
-            <ul className="mt-4 flex gap-2" aria-label="Social Media (Profile folgen in Kürze)">
+            <p className="mt-6 max-w-xs text-[0.92rem] leading-relaxed text-ivory/60">
+              {site.category}. ELORA entwickelt Produkte mit ausgewählten Inhaltsstoffen – klar, transparent und mit Anspruch an Qualität.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-6 lg:col-start-6">
+            <Col title="Shop" items={footerNav.shop} />
+            <Col title="Über ELORA" items={footerNav.about} />
+            <Col title="Rechtliches" items={footerNav.legal} />
+          </div>
+          <div className="lg:col-span-1 lg:col-start-12">
+            <h2 className="spec text-ivory/45">Social</h2>
+            <ul className="mt-5 flex gap-2 lg:flex-col" aria-label="Social Media – Profile folgen">
               {socials.map(({ label, Icon }) => (
                 <li key={label}>
-                  <span
-                    title={`${label} – Profil folgt`}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/15 text-cream/60"
-                  >
-                    <Icon size={19} />
+                  <span title={`${label} – Profil folgt`} className="inline-flex h-10 w-10 items-center justify-center border border-ivory/15 text-ivory/55">
+                    <Icon size={18} />
                     <span className="sr-only">{label} – Profil folgt</span>
                   </span>
                 </li>
@@ -97,26 +60,25 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-cream/10 pt-8 text-[0.78rem] leading-relaxed text-cream/50">
-          <div className="grid gap-6 lg:grid-cols-12">
-            <p className="lg:col-span-8">
-              <strong className="font-semibold text-cream/70">Hinweis:</strong> {site.product} befindet sich
-              in der Entwicklung und ist derzeit nicht erhältlich. Geplant ist ein
-              Nahrungsergänzungsmittel. Nahrungsergänzungsmittel sind kein Ersatz für eine
-              ausgewogene, abwechslungsreiche Ernährung und eine gesunde Lebensweise. Alle Angaben
-              zu Rezeptur, Nährstoffmengen und Verpackung sind vorläufige Konzeptinformationen;
-              Werte in eckigen Klammern sind Platzhalter.
-            </p>
-            <p className="lg:col-span-4 lg:text-right">
-              <sup>1</sup> Zugelassene gesundheitsbezogene Angabe gemäß VO (EU) Nr. 432/2012 – nur
-              verwendbar, wenn die finale Rezeptur die erforderlichen Mindestmengen erreicht.
-            </p>
-          </div>
-          <p className="mt-8 flex flex-wrap items-center justify-between gap-4">
-            <span>© {year} ELORA. Alle Rechte vorbehalten.</span>
-            <span className="wordmark text-[0.7rem] text-cream/35">Natural Daily Nutrition</span>
+        <div className="mt-16 grid gap-6 border-t border-ivory/10 pt-8 text-[0.75rem] leading-relaxed text-ivory/45 lg:grid-cols-12">
+          <p className="lg:col-span-8">
+            ELORA DAY befindet sich in der Entwicklung und ist derzeit nicht erhältlich. Geplant ist ein Nahrungsergänzungsmittel. Nahrungsergänzungsmittel sind kein Ersatz für eine
+            ausgewogene, abwechslungsreiche Ernährung und eine gesunde Lebensweise. Produktabbildungen sind Konzeptvisualisierungen (Mockups), nicht die finale Verpackung. Angaben in
+            eckigen Klammern sind Platzhalter.
+          </p>
+          <p className="lg:col-span-4 lg:text-right">
+            <sup>1</sup> Zugelassene gesundheitsbezogene Angabe gemäß VO (EU) Nr. 432/2012 – nur verwendbar, wenn die finale Rezeptur die Bedingungen erfüllt.
           </p>
         </div>
+      </div>
+
+      {/* Signatur: übergroße Wortmarke */}
+      <div aria-hidden="true" className="relative z-[2] mt-10 select-none overflow-hidden">
+        <p className="translate-y-[16%] text-center font-sans text-[24vw] leading-[0.8] font-light tracking-[0.12em] text-ivory/[0.07] [margin-right:-0.12em]">ELORA</p>
+      </div>
+      <div className="frame relative z-[2] flex flex-wrap justify-between gap-3 border-t border-ivory/10 py-5 text-[0.72rem] text-ivory/40">
+        <span>© {new Date().getFullYear()} ELORA</span>
+        <span className="spec">Natural Daily Nutrition</span>
       </div>
     </footer>
   );

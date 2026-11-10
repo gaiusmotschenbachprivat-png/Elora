@@ -14,6 +14,7 @@
 
 export type Ingredient = {
   symbol: string;
+  group: "Elektrolyt" | "Vitamin";
   name: string;
   optional?: boolean;
   role: string;
@@ -24,6 +25,7 @@ export type Ingredient = {
 export const ingredients: Ingredient[] = [
   {
     symbol: "K",
+    group: "Elektrolyt",
     name: "Kalium",
     role: "Mineralstoff und einer der wichtigsten Elektrolyte des Körpers.",
     claims: [
@@ -33,6 +35,7 @@ export const ingredients: Ingredient[] = [
   },
   {
     symbol: "Mg",
+    group: "Elektrolyt",
     name: "Magnesium",
     role: "Mineralstoff, der an zahlreichen Prozessen im Körper beteiligt ist.",
     claims: [
@@ -42,6 +45,7 @@ export const ingredients: Ingredient[] = [
   },
   {
     symbol: "Na",
+    group: "Elektrolyt",
     name: "Natrium",
     role: "Mineralstoff und Elektrolyt, der natürlicherweise in vielen Lebensmitteln vorkommt.",
     claims: [],
@@ -49,6 +53,7 @@ export const ingredients: Ingredient[] = [
   },
   {
     symbol: "C",
+    group: "Vitamin",
     name: "Vitamin C",
     role: "Wasserlösliches Vitamin, klassisch verbunden mit Citrusfrüchten.",
     claims: [
@@ -58,6 +63,7 @@ export const ingredients: Ingredient[] = [
   },
   {
     symbol: "B12",
+    group: "Vitamin",
     name: "Vitamin B12",
     optional: true,
     role: "Wasserlösliches Vitamin. Ob es Teil der finalen Rezeptur wird, ist noch offen.",
@@ -120,6 +126,13 @@ export const faq: FaqItem[] = [
     ],
   },
   {
+    q: "Kann ich ELORA DAY schon kaufen oder vorbestellen?",
+    status: "fixed",
+    a: [
+      "Noch nicht. Solange Rezeptur, Preis, Lieferbedingungen und alle rechtlichen Angaben nicht feststehen, ist keine Bestellung möglich – auch keine bezahlte Vorbestellung. Du kannst dich aber unverbindlich vormerken und wirst informiert, sobald sich das ändert.",
+    ],
+  },
+  {
     q: "Wie viele Portionen enthält eine Verpackung?",
     status: "preliminary",
     a: [
@@ -132,4 +145,41 @@ export const faqStatusLabel: Record<FaqItem["status"], string> = {
   fixed: "Festgelegt",
   preliminary: "Vorläufig",
   planned: "Geplant",
+};
+
+/** Transparenzprotokoll: was feststeht und woran gearbeitet wird. */
+export type ProtocolEntry = { area: string; commitment: string; status: "fixed" | "in-progress" | "before-launch" };
+
+export const protocol: ProtocolEntry[] = [
+  {
+    area: "Rohstoffauswahl",
+    commitment: "Jeder Rohstoff wird nach Qualität, Herkunft und Eignung für die Rezeptur ausgewählt. Rohstoffformen legen wir mit der finalen Rezeptur offen.",
+    status: "in-progress",
+  },
+  {
+    area: "Produktentwicklung",
+    commitment: "Eine kurze Zutatenliste. Jede Zutat muss ihren Platz begründen – ohne Koffein, ohne Taurin, ohne unnötige Zusätze.",
+    status: "fixed",
+  },
+  {
+    area: "Qualitätskontrollen",
+    commitment: "Art und Umfang der Kontrollen legen wir gemeinsam mit unserem Herstellungspartner fest. Ergebnisse veröffentlichen wir erst, wenn sie vorliegen.",
+    status: "before-launch",
+  },
+  {
+    area: "Transparenz",
+    commitment: "Zutaten, Mengen pro Portion und Nährstoffbezugswerte stehen vollständig auf der Produktseite, sobald sie final sind.",
+    status: "before-launch",
+  },
+  {
+    area: "Verantwortungsbewusste Formulierung",
+    commitment: "Gesundheitsbezogene Aussagen nur im Rahmen der zugelassenen EU-Angaben – und nur, wenn die Rezeptur die Bedingungen erfüllt.",
+    status: "fixed",
+  },
+];
+
+export const protocolStatus: Record<ProtocolEntry["status"], string> = {
+  fixed: "Festgelegt",
+  "in-progress": "In Arbeit",
+  "before-launch": "Folgt vor Launch",
 };

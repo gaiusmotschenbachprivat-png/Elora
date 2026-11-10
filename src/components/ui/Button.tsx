@@ -1,27 +1,27 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
-type Variant = "primary" | "outline" | "ghost" | "light";
-type Size = "md" | "lg" | "sm";
+type Variant = "solid" | "outline" | "light" | "text";
+type Size = "sm" | "md" | "lg";
 
 const base =
-  "group inline-flex items-center justify-center gap-2.5 rounded-full font-medium tracking-[0.01em] whitespace-nowrap transition-[background-color,color,border-color,box-shadow,transform] duration-300 ease-[var(--ease-soft)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60";
+  "group relative inline-flex items-center justify-center gap-3 overflow-hidden whitespace-nowrap font-medium tracking-[0.01em] transition-[color,background-color,border-color] duration-500 ease-[var(--ease-soft)] disabled:cursor-not-allowed disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-forest text-cream-50 hover:bg-forest-900 shadow-[0_10px_30px_-14px_rgb(46_56_43/0.7)] hover:shadow-[0_14px_34px_-14px_rgb(46_56_43/0.8)]",
-  outline: "border border-ink/25 text-ink hover:border-forest hover:bg-forest hover:text-cream-50",
-  ghost: "text-forest hover:text-forest-900 underline-offset-[6px] hover:underline px-0!",
-  light: "bg-cream-50 text-forest-900 hover:bg-white",
+  solid:
+    "bg-forest text-ivory-50 before:absolute before:inset-0 before:origin-bottom before:scale-y-0 before:bg-forest-900 before:transition-transform before:duration-500 before:ease-[var(--ease-soft)] hover:before:scale-y-100 [&>*]:relative",
+  outline: "border border-ink/30 text-ink hover:border-ink hover:bg-ink hover:text-ivory-50",
+  light: "bg-ivory-50 text-forest-900 hover:bg-white",
+  text: "text-ink link-line !px-0 !h-auto",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-10 px-5 text-[0.85rem]",
-  md: "h-12 px-7 text-[0.92rem]",
-  lg: "h-14 px-8 text-[0.95rem]",
+  sm: "h-10 px-5 text-[0.82rem]",
+  md: "h-12 px-7 text-[0.9rem]",
+  lg: "h-14 px-9 text-[0.95rem]",
 };
 
-export function buttonClasses(variant: Variant = "primary", size: Size = "md", extra = "") {
+export function buttonClasses(variant: Variant = "solid", size: Size = "md", extra = "") {
   return `${base} ${variants[variant]} ${sizes[size]} ${extra}`.trim();
 }
 
@@ -29,15 +29,13 @@ export function Arrow({ className = "" }: { className?: string }) {
   return (
     <svg
       aria-hidden="true"
-      viewBox="0 0 20 20"
-      className={`h-4 w-4 transition-transform duration-300 ease-[var(--ease-soft)] group-hover:translate-x-1 ${className}`}
+      viewBox="0 0 24 12"
+      className={`h-3 w-6 transition-transform duration-500 ease-[var(--ease-soft)] group-hover:translate-x-1 ${className}`}
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      strokeWidth="1.2"
     >
-      <path d="M3.5 10h12.5M11.5 5.5 16 10l-4.5 4.5" />
+      <path d="M0 6h22M17 1l5 5-5 5" />
     </svg>
   );
 }
@@ -50,15 +48,7 @@ type LinkButtonProps = {
   children: ReactNode;
 } & Omit<ComponentPropsWithoutRef<typeof Link>, "href" | "children">;
 
-export function LinkButton({
-  href,
-  variant = "primary",
-  size = "md",
-  arrow = false,
-  className = "",
-  children,
-  ...rest
-}: LinkButtonProps) {
+export function LinkButton({ href, variant = "solid", size = "md", arrow = false, className = "", children, ...rest }: LinkButtonProps) {
   return (
     <Link href={href} className={buttonClasses(variant, size, className)} {...rest}>
       <span>{children}</span>

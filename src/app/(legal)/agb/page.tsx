@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { LegalPlaceholder } from "../LegalPlaceholder";
+import { LegalPage } from "../LegalPage";
 
 export const metadata: Metadata = { title: "Allgemeine Geschäftsbedingungen", robots: { index: false, follow: true } };
 
 export default function Page() {
-  return (
-    <LegalPlaceholder
-      title="Allgemeine Geschäftsbedingungen"
-      intro="ELORA DAY ist noch nicht erhältlich. Allgemeine Geschäftsbedingungen werden mit dem Start des Verkaufs veröffentlicht."
-      sections={["Geltungsbereich", "Vertragsschluss", "Preise und Versandkosten", "Lieferung", "Zahlung", "Gewährleistung"]}
-    />
-  );
+  return <LegalPage title="Allgemeine Geschäftsbedingungen" intro="Die AGB werden vor Aktivierung von Vorbestellung oder Verkauf veröffentlicht." sections={["Geltungsbereich und Vertragspartner", "Vertragsschluss (inkl. Vorbestellung)", "Preise und Versandkosten", "Lieferung und Liefertermine bei Vorbestellungen", "Zahlung", "Eigentumsvorbehalt", "Gewährleistung", "Gutscheine"]} />;
 }
