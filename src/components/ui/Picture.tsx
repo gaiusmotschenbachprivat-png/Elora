@@ -9,6 +9,7 @@ const WIDTHS: Record<string, number[]> = {
   "pack-glass": [640, 1024, 1600],
   flatlay: [640, 1024, 1600],
   glass: [640, 1024, 1600],
+  macro: [640, 1024, 1600],
 };
 
 type Props = {

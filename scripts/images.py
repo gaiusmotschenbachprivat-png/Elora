@@ -6,6 +6,9 @@ Die Breiten müssen zu WIDTHS in src/components/ui/Picture.tsx passen.
 import os, sys
 from PIL import Image
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from grade import grade  # noqa: E402
+
 WIDTHS = {
     "hero": [800, 1280, 1920, 2400],
     "still": [800, 1280, 1920, 2400],
@@ -13,6 +16,7 @@ WIDTHS = {
     "pack-glass": [640, 1024, 1600],
     "flatlay": [640, 1024, 1600],
     "glass": [640, 1024, 1600],
+    "macro": [640, 1024, 1600],
 }
 
 src_dir = sys.argv[1]
@@ -23,7 +27,7 @@ for name, widths in WIDTHS.items():
     if not os.path.exists(path):
         print("fehlt:", name)
         continue
-    im = Image.open(path).convert("RGB")
+    im = grade(Image.open(path).convert("RGB"))
     for w in widths:
         h = round(im.height * w / im.width)
         im.resize((w, h), Image.LANCZOS).save(os.path.join(out_dir, f"{name}-{w}.webp"), "WEBP", quality=82, method=6)

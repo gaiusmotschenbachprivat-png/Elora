@@ -76,6 +76,12 @@ export const products: Product[] = [
         height: 2000,
       },
       {
+        src: "macro",
+        alt: "Konzeptvisualisierung: aufgeschnittene Orange, Ingwer und Pulver auf Travertin in Nahaufnahme",
+        width: 1600,
+        height: 2000,
+      },
+      {
         src: "flatlay",
         alt: "Konzeptvisualisierung von oben: Dose, Pulver, Orange, Zitrone und Ingwer auf Leinen",
         width: 1600,
@@ -83,7 +89,7 @@ export const products: Product[] = [
       },
       {
         src: "glass",
-        alt: "Konzeptvisualisierung: ein Glas ELORA DAY mit Eiswürfeln und Orangenscheibe",
+        alt: "Konzeptvisualisierung: ein Glas ELORA DAY mit Eiswürfeln",
         width: 1600,
         height: 2000,
       },

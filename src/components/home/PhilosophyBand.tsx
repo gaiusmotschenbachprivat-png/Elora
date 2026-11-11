@@ -36,7 +36,7 @@ export function PhilosophyBand({ withLink = true }: { withLink?: boolean }) {
         </div>
         <Reveal variant="image" className="relative min-h-[28rem] overflow-hidden lg:col-span-6">
           <div className="absolute inset-0 bg-forest-800">
-            <Picture name="glass" alt="Konzeptvisualisierung: ein Glas ELORA DAY mit Eis und Orangenscheibe" width={1600} height={2000} sizes="(min-width: 1024px) 50vw, 100vw" position="50% 55%" />
+            <Picture name="glass" alt="Konzeptvisualisierung: ein Glas ELORA DAY mit Eis" width={1600} height={2000} sizes="(min-width: 1024px) 50vw, 100vw" position="50% 55%" />
           </div>
         </Reveal>
       </div>

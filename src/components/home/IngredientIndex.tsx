@@ -25,7 +25,7 @@ export function IngredientIndex({ detailed = false, headingLevel = 2 }: { detail
             </Reveal>
             <Reveal variant="image" className="mt-10 hidden overflow-hidden lg:block">
               <div className="aspect-[4/5] bg-sand">
-                <Picture name="flatlay" alt="Konzeptvisualisierung von oben: Dose, Pulver, Orange, Zitrone, Ingwer und ein Glas auf Leinen" width={1600} height={2000} sizes="38vw" />
+                <Picture name="macro" alt="Konzeptvisualisierung: aufgeschnittene Orange, Ingwer und Pulver auf Travertin in Nahaufnahme" width={1600} height={2000} sizes="38vw" />
               </div>
             </Reveal>
           </div>
