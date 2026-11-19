@@ -13,13 +13,13 @@ export function CartView() {
 
   return (
     <div className="frame pt-36 pb-28 lg:pt-44">
-      <h1 className="font-display text-display">Warenkorb</h1>
+      <h1 className="font-display text-display">Cart</h1>
       {lines.length === 0 ? (
         <div className="mt-12 max-w-xl border-t border-ink/80 pt-8">
-          <p className="text-lede text-ink-soft">Dein Warenkorb ist leer.</p>
-          <p className="mt-2 text-ink-muted">ELORA DAY ist noch in Entwicklung. Merke dich jetzt unverbindlich für den Launch vor.</p>
+          <p className="text-lede text-ink-soft">Your cart is empty.</p>
+          <p className="mt-2 text-ink-muted">ELORA DAY is still in development. Join the launch list – with no obligation.</p>
           <LinkButton href="/produkte/elora-day/" className="mt-8" arrow>
-            ELORA DAY ansehen
+            View ELORA DAY
           </LinkButton>
         </div>
       ) : (
@@ -27,22 +27,22 @@ export function CartView() {
           <div className="lg:col-span-7">
             <CartLines />
             <Link href="/shop/" className="mt-6 inline-block text-[0.9rem] link-line">
-              Weiter einkaufen
+              Continue shopping
             </Link>
           </div>
-          <aside className="lg:col-span-4 lg:col-start-9" aria-label="Zusammenfassung">
+          <aside className="lg:col-span-4 lg:col-start-9" aria-label="Summary">
             <div className="border-t border-ink/80 pt-6 lg:sticky lg:top-28">
-              <h2 className="spec mb-6 text-ink-muted">Zusammenfassung</h2>
+              <h2 className="spec mb-6 text-ink-muted">Summary</h2>
               <CartSummary />
               {blocked ? (
                 <div className="mt-8">
-                  <Notice tone="inactive" title="Bestellung derzeit nicht möglich">
-                    Mindestens ein Artikel ist aktuell nicht bestellbar. Sobald Vorbestellung oder Verkauf starten, kannst du hier fortfahren.
+                  <Notice tone="inactive" title="Ordering is not possible yet">
+                    At least one item cannot be ordered yet. As soon as pre-orders or sales open, you can continue here.
                   </Notice>
                 </div>
               ) : (
                 <LinkButton href="/kasse/" size="lg" className="mt-8 w-full" arrow>
-                  Zur Kasse
+                  Checkout
                 </LinkButton>
               )}
             </div>

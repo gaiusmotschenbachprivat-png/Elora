@@ -6,7 +6,7 @@ import { Picture } from "@/components/ui/Picture";
 import { Reveal } from "@/components/ui/Reveal";
 import { products } from "@/lib/catalog";
 
-export const metadata: Metadata = { title: "Shop", description: "Die Produkte von ELORA. Den Anfang macht ELORA DAY." };
+export const metadata: Metadata = { title: "Shop", description: "Products by ELORA – thoughtfully made for your daily ritual. Beginning with ELORA DAY." };
 
 export default function ShopPage() {
   return (
@@ -15,17 +15,19 @@ export default function ShopPage() {
         eyebrow="Shop"
         title={
           <>
-            Natural Daily <em className="display-italic">Nutrition.</em>
+            A daily ritual.
+            <br />
+            <span className="display-italic text-ink">Thoughtfully made.</span>
           </>
         }
-        lede="Wenige Produkte, sorgfältig entwickelt. Den Anfang macht ELORA DAY."
+        lede="Few products, carefully developed. ELORA begins with ELORA DAY."
       />
-      <section className="frame pb-28">
-        <ul className="grid gap-16">
+      <section className="frame pb-32">
+        <ul className="grid gap-20">
           {products.map((p) => (
             <li key={p.id}>
-              <Reveal className="grid items-end gap-8 lg:grid-cols-12">
-                <Link href={`/produkte/${p.slug}/`} className="group block overflow-hidden bg-sand lg:col-span-7" aria-label={`${p.name} ansehen`}>
+              <Reveal className="grid items-end gap-10 lg:grid-cols-12">
+                <Link href={`/produkte/${p.slug}/`} className="group block overflow-hidden bg-sand-100 lg:col-span-7" aria-label={`View ${p.name}`}>
                   <div className="aspect-[4/5] sm:aspect-[5/4]">
                     <Picture
                       name={p.images[1].src}
@@ -34,28 +36,26 @@ export default function ShopPage() {
                       height={2000}
                       sizes="(min-width: 1024px) 58vw, 100vw"
                       position="50% 60%"
-                      className="transition-transform duration-[1600ms] ease-[var(--ease-soft)] group-hover:scale-[1.03]"
+                      className="transition-transform duration-[2200ms] ease-[var(--ease-soft)] group-hover:scale-[1.025]"
                     />
                   </div>
                 </Link>
                 <div className="lg:col-span-4 lg:col-start-9 lg:pb-4">
-                  <p className="spec text-citrus-700">
-                    {p.line} · {p.flavor}
-                  </p>
-                  <h2 className="mt-3 font-display text-[3rem] leading-none">{p.name}</h2>
-                  <p className="mt-4 leading-relaxed text-ink-soft">{p.tagline}</p>
-                  <div className="mt-6">
+                  <p className="spec text-gold-700">{p.flavor}</p>
+                  <h2 className="caps mt-4 font-display text-[3.2rem] leading-none text-forest">{p.name}</h2>
+                  <p className="mt-5 leading-relaxed text-ink-soft">{p.tagline}</p>
+                  <div className="mt-8">
                     <PriceBlock slug={p.slug} />
                   </div>
-                  <Link href={`/produkte/${p.slug}/`} className="mt-8 inline-block text-[0.95rem] link-line">
-                    Zum Produkt
+                  <Link href={`/produkte/${p.slug}/`} className="mt-10 inline-block text-[0.72rem] tracking-[0.2em] text-forest uppercase link-line">
+                    Discover the product
                   </Link>
                 </div>
               </Reveal>
             </li>
           ))}
         </ul>
-        <p className="spec mt-20 border-t border-line pt-6 text-ink-muted">Weitere Produkte sind in Planung. Wir kündigen sie an, sobald sie feststehen.</p>
+        <p className="spec mt-24 border-t border-line pt-6 text-ink-muted">Further products are planned. We will announce them once they are confirmed.</p>
       </section>
     </>
   );

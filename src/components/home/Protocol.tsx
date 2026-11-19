@@ -10,35 +10,35 @@ export function Protocol({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
       <div className="frame">
         <div className="grid gap-10 lg:grid-cols-12">
           <Reveal className="lg:col-span-7">
-            <Eyebrow index="§ 05">Qualität &amp; Transparenz</Eyebrow>
-            <H id="protocol-title" className="mt-8 font-display text-title">
-              Was feststeht.
+            <Eyebrow>Quality &amp; transparency</Eyebrow>
+            <H id="protocol-title" className="caps mt-10 font-display text-title text-forest">
+              What is confirmed.
               <br />
-              <em className="display-italic text-ink-soft">Und was noch nicht.</em>
+              <span className="display-italic text-ink">And what is not – yet.</span>
             </H>
           </Reveal>
           <Reveal className="lg:col-span-4 lg:col-start-9 lg:pt-16" delay={100}>
             <p className="leading-relaxed text-ink-soft">
-              Unser Transparenzprotokoll zeigt den aktuellen Stand der Entwicklung. Zertifikate, Laborergebnisse oder Prüfsiegel nennen wir erst, wenn sie tatsächlich vorliegen.
+              Our transparency record shows the current state of development. We will only mention certificates, laboratory results or seals once they actually exist.
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-16 border-t border-ink/80" role="table" aria-label="Transparenzprotokoll">
+        <div className="mt-16 border-t border-forest/50" role="table" aria-label="Transparency record">
           <div role="row" className="hidden grid-cols-12 gap-8 border-b border-line py-3 lg:grid">
             <span role="columnheader" className="spec col-span-3 text-ink-muted">
-              Bereich
+              Area
             </span>
             <span role="columnheader" className="spec col-span-6 text-ink-muted">
-              Unser Anspruch
+              Our commitment
             </span>
             <span role="columnheader" className="spec col-span-3 text-right text-ink-muted">
-              Stand
+              Status
             </span>
           </div>
           {protocol.map((row, i) => (
             <Reveal key={row.area} delay={i * 50} role="row" className="grid gap-3 border-b border-line py-7 lg:grid-cols-12 lg:gap-8 lg:py-9">
-              <p role="cell" className="font-display text-[1.45rem] leading-tight lg:col-span-3">
+              <p role="cell" className="font-display text-[1.6rem] leading-tight lg:col-span-3">
                 {row.area}
               </p>
               <p role="cell" className="leading-relaxed text-ink-soft lg:col-span-6">

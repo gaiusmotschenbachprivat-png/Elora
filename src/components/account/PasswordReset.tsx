@@ -29,26 +29,26 @@ export function PasswordReset() {
   async function request(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const supabase = getSupabase();
-    if (!supabase) return setMsg({ tone: "inactive", text: "Das Kundenkonto ist noch nicht aktiviert." });
+    if (!supabase) return setMsg({ tone: "inactive", text: "The customer account is not activated yet." });
     const email = String(new FormData(e.currentTarget).get("email") ?? "").trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return setError("Bitte gib eine gültige E-Mail-Adresse ein.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return setError("Please enter a valid email address.");
     setError(null);
     const { error: err } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: siteUrl("/konto/passwort/") });
     // Aus Datenschutzgründen immer dieselbe Rückmeldung (keine Auskunft, ob ein Konto existiert)
     setMsg(
       err?.message?.toLowerCase().includes("rate")
-        ? { tone: "error", text: "Zu viele Anfragen. Bitte versuche es in einigen Minuten erneut." }
-        : { tone: "success", text: "Falls ein Konto mit dieser Adresse existiert, haben wir dir einen Link zum Zurücksetzen geschickt." },
+        ? { tone: "error", text: "Too many requests. Please try again in a few minutes." }
+        : { tone: "success", text: "If an account exists for this address, we have sent you a reset link." },
     );
   }
 
   async function update(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const pw = String(new FormData(e.currentTarget).get("password") ?? "");
-    if (pw.length < 10) return setError("Mindestens 10 Zeichen.");
+    if (pw.length < 10) return setError("At least 10 characters.");
     setError(null);
     const { error: err } = await getSupabase()!.auth.updateUser({ password: pw });
-    setMsg(err ? { tone: "error", text: "Das Passwort konnte nicht gespeichert werden. Fordere bitte einen neuen Link an." } : { tone: "success", text: "Dein neues Passwort ist gespeichert." });
+    setMsg(err ? { tone: "error", text: "The password could not be saved. Please request a new link." } : { tone: "success", text: "Your new password has been saved." });
   }
 
   const setNew = recovery || (session && typeof window !== "undefined" && window.location.search.includes("code="));
@@ -56,33 +56,33 @@ export function PasswordReset() {
   return (
     <div className="frame grid gap-12 pt-36 pb-28 lg:grid-cols-12 lg:pt-44">
       <div className="lg:col-span-5">
-        <p className="spec text-ink-muted">Kundenkonto</p>
-        <h1 className="mt-6 font-display text-title">{setNew ? "Neues Passwort." : "Passwort vergessen?"}</h1>
+        <p className="spec text-ink-muted">Account</p>
+        <h1 className="mt-6 font-display text-title">{setNew ? "New password." : "Forgot your password?"}</h1>
       </div>
       <div className="max-w-md lg:col-span-5 lg:col-start-7 lg:pt-12">
         {!services.supabase ? (
-          <Notice tone="inactive">Das Kundenkonto ist noch nicht aktiviert.</Notice>
+          <Notice tone="inactive">The customer account is not activated yet.</Notice>
         ) : setNew ? (
           <form noValidate onSubmit={update} className="space-y-6">
-            <Field id="password" name="password" type="password" label="Neues Passwort" required autoComplete="new-password" error={error} hint="Mindestens 10 Zeichen." />
+            <Field id="password" name="password" type="password" label="New password" required autoComplete="new-password" error={error} hint="At least 10 characters." />
             {msg && <Notice tone={msg.tone === "inactive" ? "inactive" : msg.tone}>{msg.text}</Notice>}
             <button type="submit" className={buttonClasses("solid", "lg")}>
-              <span>Passwort speichern</span>
+              <span>Save password</span>
               <Arrow />
             </button>
             {msg?.tone === "success" && (
               <Link href="/konto/" className="block link-line w-fit">
-                Zum Kundenkonto
+                Go to account
               </Link>
             )}
           </form>
         ) : (
           <form noValidate onSubmit={request} className="space-y-6">
-            <p className="text-ink-soft">Gib deine E-Mail-Adresse ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.</p>
-            <Field id="email" name="email" type="email" label="E-Mail-Adresse" required autoComplete="email" error={error} />
+            <p className="text-ink-soft">Enter your email address. We will send you a link to set a new password.</p>
+            <Field id="email" name="email" type="email" label="Email address" required autoComplete="email" error={error} />
             {msg && <Notice tone={msg.tone === "inactive" ? "inactive" : msg.tone}>{msg.text}</Notice>}
             <button type="submit" className={buttonClasses("solid", "lg")}>
-              <span>Link anfordern</span>
+              <span>Request link</span>
               <Arrow />
             </button>
           </form>

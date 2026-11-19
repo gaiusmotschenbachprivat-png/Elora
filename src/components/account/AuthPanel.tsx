@@ -10,15 +10,15 @@ import { siteUrl } from "@/lib/services";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/** Übersetzt Supabase-Fehler in verständliche Hinweise */
+/** Turns Supabase errors into clear messages */
 export function authMessage(msg: string) {
   const m = msg.toLowerCase();
-  if (m.includes("invalid login")) return "E-Mail-Adresse oder Passwort stimmen nicht.";
-  if (m.includes("email not confirmed")) return "Bitte bestätige zuerst deine E-Mail-Adresse über den Link in unserer E-Mail.";
-  if (m.includes("already registered")) return "Für diese E-Mail-Adresse gibt es bereits ein Konto. Melde dich an oder setze dein Passwort zurück.";
-  if (m.includes("password")) return "Das Passwort erfüllt die Anforderungen nicht (mindestens 10 Zeichen).";
-  if (m.includes("rate limit")) return "Zu viele Versuche. Bitte warte einen Moment.";
-  return "Das hat nicht geklappt. Bitte versuche es erneut.";
+  if (m.includes("invalid login")) return "Email address or password is incorrect.";
+  if (m.includes("email not confirmed")) return "Please confirm your email address first, using the link in our email.";
+  if (m.includes("already registered")) return "An account already exists for this email address. Sign in or reset your password.";
+  if (m.includes("password")) return "The password does not meet the requirements (at least 10 characters).";
+  if (m.includes("rate limit")) return "Too many attempts. Please wait a moment.";
+  return "That did not work. Please try again.";
 }
 
 export function AuthPanel({ onDone }: { onDone: () => void }) {
@@ -35,12 +35,12 @@ export function AuthPanel({ onDone }: { onDone: () => void }) {
     const email = String(f.get("email") ?? "").trim();
     const password = String(f.get("password") ?? "");
     const errs: Record<string, string> = {};
-    if (!EMAIL_RE.test(email)) errs.email = "Bitte gib eine gültige E-Mail-Adresse ein.";
+    if (!EMAIL_RE.test(email)) errs.email = "Please enter a valid email address.";
     if (mode === "register") {
-      if (password.length < 10) errs.password = "Mindestens 10 Zeichen.";
-      if (!String(f.get("firstName") ?? "").trim()) errs.firstName = "Bitte gib deinen Vornamen ein.";
-      if (f.get("privacy") !== "on") errs.privacy = "Bitte bestätige den Hinweis zum Datenschutz.";
-    } else if (!password) errs.password = "Bitte gib dein Passwort ein.";
+      if (password.length < 10) errs.password = "At least 10 characters.";
+      if (!String(f.get("firstName") ?? "").trim()) errs.firstName = "Please enter your first name.";
+      if (f.get("privacy") !== "on") errs.privacy = "Please confirm the privacy notice.";
+    } else if (!password) errs.password = "Please enter your password.";
     setErrors(errs);
     setMessage(null);
     if (Object.keys(errs).length) return;
@@ -63,13 +63,13 @@ export function AuthPanel({ onDone }: { onDone: () => void }) {
       setBusy(false);
       if (error) return setMessage({ tone: "error", text: authMessage(error.message) });
       if (data.session) return onDone();
-      setMessage({ tone: "success", text: "Fast geschafft: Wir haben dir eine E-Mail geschickt. Bitte bestätige deine Adresse, danach kannst du dich anmelden." });
+      setMessage({ tone: "success", text: "Almost there: we have sent you an email. Please confirm your address, then you can sign in." });
     }
   }
 
   return (
     <div className="max-w-md">
-      <div role="tablist" aria-label="Anmelden oder registrieren" className="flex gap-8 border-b border-line">
+      <div role="tablist" aria-label="Sign in or create account" className="flex gap-8 border-b border-line">
         {(["login", "register"] as const).map((m) => (
           <button
             key={m}
@@ -83,34 +83,34 @@ export function AuthPanel({ onDone }: { onDone: () => void }) {
             }}
             className={`-mb-px border-b pb-3 text-[0.95rem] transition-colors ${mode === m ? "border-ink text-ink" : "border-transparent text-ink-muted hover:text-ink"}`}
           >
-            {m === "login" ? "Anmelden" : "Konto erstellen"}
+            {m === "login" ? "Sign in" : "Create account"}
           </button>
         ))}
       </div>
       <form noValidate onSubmit={submit} className="mt-8 space-y-6" key={mode}>
         {mode === "register" && (
           <div className="grid gap-6 sm:grid-cols-2">
-            <Field id="firstName" name="firstName" label="Vorname" required autoComplete="given-name" error={errors.firstName} />
-            <Field id="lastName" name="lastName" label="Nachname" autoComplete="family-name" />
+            <Field id="firstName" name="firstName" label="First name" required autoComplete="given-name" error={errors.firstName} />
+            <Field id="lastName" name="lastName" label="Last name" autoComplete="family-name" />
           </div>
         )}
-        <Field id="email" name="email" type="email" label="E-Mail-Adresse" required autoComplete="email" error={errors.email} />
+        <Field id="email" name="email" type="email" label="Email address" required autoComplete="email" error={errors.email} />
         <Field
           id="password"
           name="password"
           type="password"
-          label="Passwort"
+          label="Password"
           required
           autoComplete={mode === "login" ? "current-password" : "new-password"}
           error={errors.password}
-          hint={mode === "register" ? "Mindestens 10 Zeichen. Passwörter werden ausschließlich verschlüsselt gespeichert." : undefined}
+          hint={mode === "register" ? "At least 10 characters. Passwords are only ever stored encrypted." : undefined}
         />
         {mode === "register" && (
           <div>
             <label className="flex gap-3 text-[0.82rem] leading-relaxed text-ink-soft">
               <input type="checkbox" name="privacy" className="check" aria-invalid={errors.privacy ? true : undefined} />
               <span>
-                Ich habe die <Link href="/datenschutz/" className="underline underline-offset-2">Datenschutzerklärung</Link> zur Kenntnis genommen.
+                I have read the <Link href="/datenschutz/" className="underline underline-offset-2">privacy policy (Datenschutz)</Link>.
               </span>
             </label>
             {errors.privacy && <p className="mt-1.5 pl-7 text-[0.8rem] text-error">{errors.privacy}</p>}
@@ -119,12 +119,12 @@ export function AuthPanel({ onDone }: { onDone: () => void }) {
         {message && <Notice tone={message.tone}>{message.text}</Notice>}
         <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
           <button type="submit" disabled={busy} className={buttonClasses("solid", "lg")}>
-            <span>{busy ? "Bitte warten …" : mode === "login" ? "Anmelden" : "Konto erstellen"}</span>
+            <span>{busy ? "Please wait …" : mode === "login" ? "Sign in" : "Create account"}</span>
             <Arrow />
           </button>
           {mode === "login" && (
             <Link href="/konto/passwort/" className="text-[0.88rem] link-line">
-              Passwort vergessen?
+              Forgot your password?
             </Link>
           )}
         </div>

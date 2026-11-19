@@ -6,7 +6,7 @@ export function QtyStepper({
   value,
   onChange,
   max,
-  label = "Menge",
+  label = "Quantity",
   size = "md",
 }: {
   value: number;
@@ -24,7 +24,7 @@ export function QtyStepper({
         className={`${w} flex h-full items-center justify-center text-ink transition-colors hover:bg-sand disabled:opacity-30`}
         onClick={() => onChange(Math.max(1, value - 1))}
         disabled={value <= 1}
-        aria-label="Menge verringern"
+        aria-label="Decrease quantity"
       >
         <IconMinus size={16} />
       </button>
@@ -36,7 +36,7 @@ export function QtyStepper({
         className={`${w} flex h-full items-center justify-center text-ink transition-colors hover:bg-sand disabled:opacity-30`}
         onClick={() => onChange(Math.min(max, value + 1))}
         disabled={value >= max}
-        aria-label="Menge erhöhen"
+        aria-label="Increase quantity"
       >
         <IconPlus size={16} />
       </button>

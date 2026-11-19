@@ -11,13 +11,13 @@ type Status = { kind: "idle" } | { kind: "sending" } | { kind: "done" } | { kind
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 /**
- * Launch-Registrierung / Newsletter mit Double-Opt-in.
- * Erfolg wird nur angezeigt, wenn die Edge Function die Speicherung bestätigt.
+ * Launch list / newsletter with double opt-in.
+ * Success is only shown once the edge function confirms the record was stored.
  */
 export function SignupForm({
   list = "launch",
   tone = "light",
-  submitLabel = "Vormerken",
+  submitLabel = "Join",
 }: {
   list?: "launch" | "newsletter";
   tone?: "light" | "dark";
@@ -37,9 +37,9 @@ export function SignupForm({
     const email = String(data.get("email") ?? "").trim();
     const consent = data.get("consent") === "on";
     const next: typeof errors = {};
-    if (!email) next.email = "Bitte gib deine E-Mail-Adresse ein.";
-    else if (!EMAIL_RE.test(email) || email.length > 254) next.email = "Diese E-Mail-Adresse sieht nicht vollständig aus.";
-    if (!consent) next.consent = "Bitte bestätige deine Einwilligung.";
+    if (!email) next.email = "Please enter your email address.";
+    else if (!EMAIL_RE.test(email) || email.length > 254) next.email = "This email address does not look complete.";
+    if (!consent) next.consent = "Please confirm your consent.";
     setErrors(next);
     if (next.email) emailRef.current?.focus();
     if (next.email || next.consent) return;
@@ -47,7 +47,7 @@ export function SignupForm({
     if (!active) {
       setStatus({
         kind: "error",
-        message: "Die Registrierung ist noch nicht aktiviert. Wir richten sie gerade ein – deine Adresse wurde nicht gespeichert.",
+        message: "Sign-up is not activated yet. We are setting it up – your address has not been stored.",
       });
       return;
     }
@@ -65,22 +65,22 @@ export function SignupForm({
         setStatus({ kind: "done" });
         form.reset();
       } else {
-        setStatus({ kind: "error", message: res.message ?? "Die Anmeldung konnte nicht gespeichert werden. Bitte versuche es später erneut." });
+        setStatus({ kind: "error", message: res.message ?? "Your sign-up could not be saved. Please try again later." });
       }
     } catch {
-      setStatus({ kind: "error", message: "Keine Verbindung möglich. Bitte prüfe deine Internetverbindung." });
+      setStatus({ kind: "error", message: "No connection. Please check your internet connection." });
     }
   }
 
   if (status.kind === "done") {
     return (
       <div role="status" className={`border-t pt-8 ${dark ? "border-ivory/20" : "border-line"}`}>
-        <span className={`inline-flex h-11 w-11 items-center justify-center ${dark ? "bg-ivory-50 text-forest-900" : "bg-forest text-ivory-50"}`}>
+        <span className={`inline-flex h-11 w-11 items-center justify-center rounded-full ${dark ? "bg-ivory-50 text-forest-900" : "bg-forest text-ivory-50"}`}>
           <IconCheck size={20} />
         </span>
-        <p className={`mt-5 font-display text-[2rem] leading-tight ${dark ? "text-ivory-50" : ""}`}>Fast geschafft.</p>
+        <p className={`mt-6 font-display text-[2.2rem] leading-tight ${dark ? "text-ivory-50" : ""}`}>Almost there.</p>
         <p className={`mt-2 max-w-md leading-relaxed ${dark ? "text-ivory/75" : "text-ink-soft"}`}>
-          Wir haben dir eine E-Mail geschickt. Bitte bestätige deine Anmeldung über den Link darin – erst dann bist du eingetragen.
+          We have sent you an email. Please confirm your sign-up via the link inside – only then are you subscribed.
         </p>
       </div>
     );
@@ -94,7 +94,7 @@ export function SignupForm({
     <form noValidate onSubmit={onSubmit}>
       <div className={`flex items-end gap-4 border-b transition-colors ${lineColor}`}>
         <label htmlFor={`${id}-email`} className="sr-only">
-          E-Mail-Adresse
+          Email address
         </label>
         <input
           ref={emailRef}
@@ -103,15 +103,15 @@ export function SignupForm({
           type="email"
           inputMode="email"
           autoComplete="email"
-          placeholder="Deine E-Mail-Adresse"
+          placeholder="Your email address"
           maxLength={254}
           disabled={sending}
           aria-invalid={errors.email ? true : undefined}
           aria-describedby={errors.email ? `${id}-email-error` : undefined}
-          className={`h-16 min-w-0 flex-1 bg-transparent text-[1.15rem] outline-none sm:text-[1.3rem] ${dark ? "text-ivory-50 placeholder:text-ivory/40" : "placeholder:text-ink-muted/70"}`}
+          className={`h-16 w-0 min-w-0 flex-1 bg-transparent font-display text-[1.35rem] outline-none sm:text-[1.6rem] ${dark ? "text-ivory-50 placeholder:text-ivory/40" : "placeholder:text-ink-muted/70"}`}
         />
-        <button type="submit" disabled={sending} className={`group mb-4 inline-flex shrink-0 items-center gap-3 text-[0.92rem] font-medium ${dark ? "text-ivory-50" : "text-ink"} disabled:opacity-50`}>
-          {sending ? "Wird gesendet …" : submitLabel}
+        <button type="submit" disabled={sending} className={`group mb-4 inline-flex shrink-0 items-center gap-3 text-[0.72rem] tracking-[0.2em] uppercase ${dark ? "text-ivory-50" : "text-forest"} disabled:opacity-50`}>
+          {sending ? "Sending …" : submitLabel}
           <Arrow />
         </button>
       </div>
@@ -140,10 +140,9 @@ export function SignupForm({
           aria-describedby={errors.consent ? `${id}-consent-error` : undefined}
         />
         <label htmlFor={`${id}-consent`} className={`text-[0.8rem] leading-relaxed ${muted}`}>
-          Ich möchte per E-Mail über den Launch von ELORA DAY {list === "newsletter" ? "und neue Produkte " : ""}informiert werden. Die Einwilligung kann ich jederzeit widerrufen. Details
-          in der{" "}
+          I would like to receive emails about the launch of ELORA DAY{list === "newsletter" ? ", new rituals and products" : ""}. I can withdraw my consent at any time. Details in the{" "}
           <Link href="/datenschutz/" className="underline underline-offset-2">
-            Datenschutzerklärung
+            privacy policy (Datenschutz)
           </Link>
           .
         </label>
@@ -161,7 +160,7 @@ export function SignupForm({
           </p>
         )}
       </div>
-      {!active && status.kind === "idle" && <p className={`spec mt-6 ${muted}`}>Registrierung noch nicht aktiviert · wird eingerichtet</p>}
+      {!active && status.kind === "idle" && <p className={`spec mt-6 ${muted}`}>Sign-up not yet activated · being set up</p>}
     </form>
   );
 }

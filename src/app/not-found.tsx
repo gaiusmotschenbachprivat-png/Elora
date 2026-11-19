@@ -4,10 +4,10 @@ import { PageIntro } from "@/components/ui/PageIntro";
 export default function NotFound() {
   return (
     <>
-      <PageIntro eyebrow="404" title={<>Diese Seite gibt es <em className="display-italic">nicht.</em></>} lede="Vielleicht wurde sie verschoben. Auf der Startseite findest du alles Wichtige." />
+      <PageIntro eyebrow="404" title={<>This page<br />does not exist.</>} lede="It may have moved. You will find everything important on the home page." />
       <div className="frame pb-28">
         <LinkButton href="/" arrow>
-          Zur Startseite
+          Back to home
         </LinkButton>
       </div>
     </>

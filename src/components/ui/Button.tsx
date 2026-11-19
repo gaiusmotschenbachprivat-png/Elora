@@ -5,20 +5,20 @@ type Variant = "solid" | "outline" | "light" | "text";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "group relative inline-flex items-center justify-center gap-3 overflow-hidden whitespace-nowrap font-medium tracking-[0.01em] transition-[color,background-color,border-color] duration-500 ease-[var(--ease-soft)] disabled:cursor-not-allowed disabled:opacity-50";
+  "group relative inline-flex items-center justify-center gap-4 overflow-hidden whitespace-nowrap font-normal uppercase tracking-[0.2em] transition-[color,background-color,border-color] duration-700 ease-[var(--ease-soft)] disabled:cursor-not-allowed disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
   solid:
-    "bg-forest text-ivory-50 before:absolute before:inset-0 before:origin-bottom before:scale-y-0 before:bg-forest-900 before:transition-transform before:duration-500 before:ease-[var(--ease-soft)] hover:before:scale-y-100 [&>*]:relative",
-  outline: "border border-ink/30 text-ink hover:border-ink hover:bg-ink hover:text-ivory-50",
-  light: "bg-ivory-50 text-forest-900 hover:bg-white",
+    "bg-forest text-ivory before:absolute before:inset-0 before:origin-bottom before:scale-y-0 before:bg-forest-900 before:transition-transform before:duration-700 before:ease-[var(--ease-soft)] hover:before:scale-y-100 [&>*]:relative",
+  outline: "border border-forest/50 text-forest hover:border-forest hover:bg-forest hover:text-ivory",
+  light: "bg-ivory text-forest-900 hover:bg-ivory-50",
   text: "text-ink link-line !px-0 !h-auto",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-10 px-5 text-[0.82rem]",
-  md: "h-12 px-7 text-[0.9rem]",
-  lg: "h-14 px-9 text-[0.95rem]",
+  sm: "h-10 px-5 text-[0.62rem]",
+  md: "h-12 px-8 text-[0.66rem]",
+  lg: "h-14 px-9 text-[0.7rem]",
 };
 
 export function buttonClasses(variant: Variant = "solid", size: Size = "md", extra = "") {

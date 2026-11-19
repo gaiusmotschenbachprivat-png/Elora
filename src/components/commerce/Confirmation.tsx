@@ -34,7 +34,7 @@ export function Confirmation() {
       try {
         const { ok, data } = await callFunction<{ order?: Order; message?: string }>("order-status", { sessionId });
         if (!ok || !data.order) {
-          setView({ kind: "error", message: data.message ?? "Wir konnten die Bestellung nicht finden." });
+          setView({ kind: "error", message: data.message ?? "We could not find this order." });
           return;
         }
         setView({ kind: "order", order: data.order });
@@ -42,7 +42,7 @@ export function Confirmation() {
         // Zahlungsbestätigung (Webhook) kann einige Sekunden dauern
         if (data.order.status === "pending_payment" && tries++ < 8) timer = window.setTimeout(load, 2500);
       } catch {
-        setView({ kind: "error", message: "Keine Verbindung. Bitte lade die Seite neu." });
+        setView({ kind: "error", message: "No connection. Please reload the page." });
       }
     };
     load();
@@ -53,12 +53,12 @@ export function Confirmation() {
     <div className="frame pt-36 pb-28 lg:pt-44">
       {view.kind === "order" && view.order.status === "paid" ? (
         <>
-          <p className="spec text-citrus-700">Bestellung {view.order.number}</p>
+          <p className="spec text-citrus-700">Order {view.order.number}</p>
           <h1 className="mt-6 font-display text-display">
-            Danke. <em className="display-italic">{view.order.kind === "preorder" ? "Vorbestellt." : "Bestellt."}</em>
+            Thank you. <em className="display-italic">{view.order.kind === "preorder" ? "Pre-ordered." : "Ordered."}</em>
           </h1>
           <p className="mt-6 max-w-xl text-lede text-ink-soft">
-            Deine Zahlung ist eingegangen. Eine Bestätigung ist unterwegs an {view.order.email}.
+            Your payment has been received. A confirmation is on its way to {view.order.email}.
           </p>
           <ul className="mt-12 max-w-xl divide-y divide-line border-y border-ink/80">
             {view.order.items.map((i) => (
@@ -70,32 +70,32 @@ export function Confirmation() {
               </li>
             ))}
             <li className="flex justify-between py-4 text-[1.05rem]">
-              <span>Gesamt</span>
+              <span>Total</span>
               <span className="font-mono">{formatPrice(view.order.totalCents)}</span>
             </li>
           </ul>
           <div className="mt-10 flex flex-wrap gap-6">
             <LinkButton href="/konto/" arrow>
-              Zum Kundenkonto
+              Go to account
             </LinkButton>
             <Link href="/" className="self-center link-line">
-              Zur Startseite
+              Back to home
             </Link>
           </div>
         </>
       ) : (
         <>
-          <h1 className="font-display text-title">Bestellstatus</h1>
+          <h1 className="font-display text-title">Order status</h1>
           <div className="mt-10 max-w-xl">
-            {view.kind === "loading" && <p className="text-ink-soft">Bestellung wird geladen …</p>}
+            {view.kind === "loading" && <p className="text-ink-soft">Loading order …</p>}
             {view.kind === "order" && view.order.status === "pending_payment" && (
-              <Notice title="Zahlung wird bestätigt">Wir warten auf die Bestätigung des Zahlungsdienstleisters. Diese Seite aktualisiert sich automatisch.</Notice>
+              <Notice title="Confirming payment">We are waiting for confirmation from the payment provider. This page updates automatically.</Notice>
             )}
             {view.kind === "order" && view.order.status === "cancelled" && (
-              <Notice tone="error" title="Bestellung nicht abgeschlossen">Die Zahlung wurde nicht abgeschlossen. Es wurde nichts berechnet.</Notice>
+              <Notice tone="error" title="Order not completed">The payment was not completed. You have not been charged.</Notice>
             )}
-            {view.kind === "missing" && <Notice>Es wurde keine Bestellung übergeben.</Notice>}
-            {view.kind === "inactive" && <Notice tone="inactive">Die Bestellabwicklung ist noch nicht aktiviert.</Notice>}
+            {view.kind === "missing" && <Notice>No order was provided.</Notice>}
+            {view.kind === "inactive" && <Notice tone="inactive">Order processing is not activated yet.</Notice>}
             {view.kind === "error" && <Notice tone="error">{view.message}</Notice>}
           </div>
         </>

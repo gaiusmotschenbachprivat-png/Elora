@@ -4,12 +4,15 @@ import { basePath } from "@/lib/services";
 /** Verfügbare Breiten pro Motiv (siehe scripts/images.py). */
 const WIDTHS: Record<string, number[]> = {
   hero: [800, 1280, 1920, 2400],
-  still: [800, 1280, 1920, 2400],
+  statement: [800, 1280, 1920, 2400],
+  philosophy: [640, 1024, 1600],
   "pack-front": [640, 1024, 1600],
   "pack-glass": [640, 1024, 1600],
-  flatlay: [640, 1024, 1600],
-  glass: [640, 1024, 1600],
   macro: [640, 1024, 1600],
+  flatlay: [640, 1024, 1600],
+  "ritual-prepare": [600, 900, 1200],
+  "ritual-mix": [600, 900, 1200],
+  "ritual-begin": [600, 900, 1200],
 };
 
 type Props = {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { AccountPage } from "@/components/account/AccountPage";
 
-export const metadata: Metadata = { title: "Kundenkonto", robots: { index: false } };
+export const metadata: Metadata = { title: "Account", robots: { index: false } };
 
 export default function Page() {
   return (

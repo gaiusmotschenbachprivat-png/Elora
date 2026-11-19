@@ -1,6 +1,8 @@
-# ELORA – Natural Daily Nutrition
+# ELORA – The Art of Daily Balance
 
 Website und D2C-Shop für **ELORA DAY** (geplanter Launch: Frühjahr 2027).
+
+*Japanese-inspired wellness. European quality.* – Die Oberfläche ist englisch; die Rechtsseiten tragen ihre deutschen Pflichtbezeichnungen (Impressum, Datenschutz, AGB, Widerrufsbelehrung, Versandinformationen). URL-Pfade bleiben deutsch (z. B. `/konto/`, `/kasse/`), weil Stripe-, Passwort- und Double-Opt-in-Weiterleitungen darauf zeigen.
 
 **Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Supabase (Datenbank, Auth, Edge Functions) · Stripe Checkout · Brevo
 
@@ -106,10 +108,11 @@ Platzhalter (eckige Klammern) und folgende Inhalte müssen fachlich geprüft erg
 
 ## Bildwelt
 
-Alle Produktbilder sind **Konzeptvisualisierungen (Mockups)** – fotorealistische 3D-Renderings, nicht die finale Verpackung, und auf der Website entsprechend gekennzeichnet. Responsive WebP-Varianten liegen in `public/images` (`scripts/images.py`). Echte Kampagnenfotos können mit denselben Dateinamen ersetzt werden.
+Alle Produktbilder sind **Konzeptvisualisierungen (Mockups)** – fotorealistische 3D-Renderings im japanisch inspirierten Stil (Shoji-Licht, helles Holz, Keramik, Leinen, Travertin, Yuzu-artige Citrusfrüchte – ohne Yuzu als Zutat zu behaupten). Sie zeigen nicht die finale Verpackung und sind auf der Website gekennzeichnet. Responsive WebP-Varianten liegen in `public/images` (`scripts/images.py`, Farbkorrektur `scripts/grade.py`). Echte Fotos können mit denselben Dateinamen ersetzt werden: `hero`, `statement`, `philosophy`, `pack-front`, `pack-glass`, `macro`, `flatlay`, `ritual-prepare`, `ritual-mix`, `ritual-begin`.
 
 ## Designsystem
 
-- Typografie: Bodoni Moda (Display, Kursiv-Akzente) · Hanken Grotesk (Text/UI) · IBM Plex Mono (Spezifikationen, Status)
-- Farben: Ivory `#F5F1E9`, Sand `#E9E1D4`, Salbei `#87927A`, Waldgrün `#465641`, Citrus `#C78B43` (punktuell), Anthrazit `#292B28`
-- Tokens & Utilities: `src/app/globals.css`
+- Palette (verbindlich): Washi Ivory `#F3F0E8` (Hintergrund), Deep Forest `#465747` (Marke), Muted Sage `#A4A58D`, Soft Gold `#D4B77C` (nur Akzente/Linien), Natural Sand `#D7CFC0`, Ink Black `#292B28` (Text). Textvarianten mit AA-Kontrast: `gold-700`, `ink-muted`.
+- Typografie: Cormorant Garamond (Headlines, oft in Versalien) · Inter (Text, Navigation, Produktdaten); gesperrte Labels (`spec`).
+- Japanische Gestaltungselemente: Balance-Kreis (`components/brand/Enso.tsx`), botanische Linienzeichnung (`Botanical.tsx`), vertikale Kapitelmarken (`SectionMark.tsx`), Washi-Papierstruktur (`grain`).
+- Tokens & Utilities: `src/app/globals.css`. Bewegung ruhig und langsam, `prefers-reduced-motion` wird respektiert.

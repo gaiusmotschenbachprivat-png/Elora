@@ -35,30 +35,37 @@ export function getPurchaseState(product: Product, variant: Variant, requestedMo
   if (requested === "launch") return { requested, mode: "launch", canPurchase: false, missing: [] };
 
   const missing: string[] = [];
-  if (variant.priceCents == null) missing.push("Preis der Variante");
-  if (!variant.netWeightGrams) missing.push("Nettofüllmenge (Grundpreis)");
-  if (variant.stock != null && variant.stock <= 0) missing.push("Bestand");
-  if (!shopConfig.paymentsEnabled) missing.push("Zahlungsanbieter (NEXT_PUBLIC_PAYMENTS_ENABLED)");
-  if (!services.supabase) missing.push("Supabase (Bestellungen, Checkout-Funktion)");
-  if (shopConfig.shipping.methods.every((m) => m.priceCents == null)) missing.push("Versandkosten");
-  for (const [key, ok] of Object.entries(shopConfig.legal)) if (!ok) missing.push(`Rechtstext: ${key}`);
-  if (requested === "preorder" && !shopConfig.preorderDeliveryNote) missing.push("Voraussichtlicher Liefertermin");
+  if (variant.priceCents == null) missing.push("variant price");
+  if (!variant.netWeightGrams) missing.push("net weight (unit price)");
+  if (variant.stock != null && variant.stock <= 0) missing.push("stock");
+  if (!shopConfig.paymentsEnabled) missing.push("payment provider (NEXT_PUBLIC_PAYMENTS_ENABLED)");
+  if (!services.supabase) missing.push("Supabase (orders, checkout function)");
+  if (shopConfig.shipping.methods.every((m) => m.priceCents == null)) missing.push("shipping costs");
+  for (const [key, ok] of Object.entries(shopConfig.legal)) if (!ok) missing.push(`legal text: ${key}`);
+  if (requested === "preorder" && !shopConfig.preorderDeliveryNote) missing.push("expected delivery date");
 
   const ready = missing.length === 0;
   return { requested, mode: ready ? requested : "launch", canPurchase: ready, missing };
 }
 
 export const ctaLabel: Record<SalesMode, string> = {
-  launch: "Zum Launch vormerken",
-  preorder: "Vorbestellen",
-  sale: "In den Warenkorb",
+  launch: "Join the launch list",
+  preorder: "Pre-order",
+  sale: "Add to cart",
 };
 
 export const statusLabel: Record<SalesMode, string> = {
-  launch: "In Entwicklung",
-  preorder: "Vorbestellung möglich",
-  sale: "Verfügbar",
+  launch: "In development",
+  preorder: "Pre-order open",
+  sale: "Available",
 };
+
+/** Availability text based solely on real stock data (no artificial scarcity). */
+export function availabilityLabel(variant: Variant, mode: SalesMode) {
+  if (mode === "launch") return null;
+  if (variant.stock == null) return null;
+  return variant.stock > 0 ? "In stock" : "Currently out of stock";
+}
 
 /* ------------------------------------------------------------------ */
 /*  Summen                                                             */

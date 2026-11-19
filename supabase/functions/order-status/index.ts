@@ -6,14 +6,14 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors(req) });
   if (req.method !== "POST") return json(req, 405, {});
   const { sessionId } = await req.json().catch(() => ({}));
-  if (typeof sessionId !== "string" || !sessionId.startsWith("cs_")) return json(req, 422, { message: "Ungültige Bestellung." });
+  if (typeof sessionId !== "string" || !sessionId.startsWith("cs_")) return json(req, 422, { message: "Invalid order." });
 
   const { data: o } = await adminClient()
     .from("orders")
     .select("number, status, kind, total_cents, email, order_items(name, qty, line_cents)")
     .eq("stripe_session_id", sessionId)
     .maybeSingle();
-  if (!o) return json(req, 404, { message: "Wir konnten die Bestellung nicht finden." });
+  if (!o) return json(req, 404, { message: "We could not find this order." });
 
   // E-Mail-Adresse nur maskiert zurückgeben
   const [user, domain] = (o.email as string).split("@");

@@ -3,10 +3,10 @@ import { PageIntro } from "@/components/ui/PageIntro";
 export function LegalPage({ title, intro, sections }: { title: string; intro: string; sections: string[] }) {
   return (
     <>
-      <PageIntro eyebrow="Rechtliches · Platzhalter" title={title} lede={intro} />
+      <PageIntro eyebrow="Legal · placeholder" title={title} lede={intro} />
       <section className="frame pb-28">
-        <div className="border-t border-ink/80 lg:ml-[33.333%]">
-          <p className="spec border-b border-line py-4 text-citrus-700">Vorgesehene Inhalte – vor Verkaufsstart fachlich zu prüfen</p>
+        <div className="border-t border-forest/50 lg:ml-[33.333%]">
+          <p className="spec border-b border-line py-4 text-gold-700">Planned contents – to be completed and legally reviewed before any sale</p>
           <ol>
             {sections.map((s, i) => (
               <li key={s} className="grid grid-cols-[3rem_1fr] border-b border-line py-5">

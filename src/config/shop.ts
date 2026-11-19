@@ -23,7 +23,7 @@ export const shopConfig = {
   salesMode: "launch" as SalesMode,
 
   currency: "EUR",
-  locale: "de-DE",
+  locale: "de-DE", // EUR formatting for the German market
 
   /**
    * Rechtliche Freigaben – erst auf `true` setzen, wenn die Texte
@@ -47,15 +47,15 @@ export const shopConfig = {
   /** Versandarten (Anzeige). Verbindlich sind die Werte in der Datenbank. */
   shipping: {
     countries: [
-      { code: "DE", label: "Deutschland" },
-      { code: "AT", label: "Österreich" },
+      { code: "DE", label: "Germany" },
+      { code: "AT", label: "Austria" },
     ],
     methods: [
       {
         id: "standard",
-        label: "Standardversand",
+        label: "Standard shipping",
         priceCents: null as number | null,
-        deliveryNote: "[Lieferzeit wird vor dem Launch festgelegt]",
+        deliveryNote: "[Delivery time to be confirmed before launch]",
       },
     ],
     freeShippingThresholdCents: null as number | null,

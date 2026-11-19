@@ -43,14 +43,14 @@ Deno.serve(async (req) => {
         .join("");
       await brevoSend(
         order.email,
-        `${order.kind === "preorder" ? "Deine Vorbestellung" : "Deine Bestellung"} ${order.number} bei ELORA`,
+        `Your ELORA ${order.kind === "preorder" ? "pre-order" : "order"} ${order.number}`,
         `<div style="font-family:Helvetica,Arial,sans-serif;color:#292b28;max-width:520px">
           <p style="letter-spacing:.4em;font-size:18px">ELORA</p>
-          <h1 style="font-weight:400">Danke für deine ${order.kind === "preorder" ? "Vorbestellung" : "Bestellung"}.</h1>
-          <p>Bestellnummer: <strong>${order.number}</strong></p>
+          <h1 style="font-weight:400">Thank you for your ${order.kind === "preorder" ? "pre-order" : "order"}.</h1>
+          <p>Order number: <strong>${order.number}</strong></p>
           <table style="width:100%;border-top:1px solid #d9d0c1;border-bottom:1px solid #d9d0c1">${rows}</table>
-          <p style="text-align:right">Gesamt: <strong>${eur(order.total_cents)}</strong></p>
-          <p style="color:#73766d;font-size:12px">[Pflichtangaben, Widerrufsbelehrung und AGB werden vor Verkaufsstart ergänzt.]</p>
+          <p style="text-align:right">Total: <strong>${eur(order.total_cents)}</strong></p>
+          <p style="color:#73766d;font-size:12px">[Mandatory information, Widerrufsbelehrung and AGB will be added before any sale.]</p>
         </div>`,
       ).catch(() => false);
     }

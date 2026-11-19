@@ -29,7 +29,7 @@ export function Notice({ tone = "info", title, children, role }: { tone?: Tone; 
 /** Kennzeichnung für noch nicht festgelegte Angaben */
 export function Tbd({ children }: { children: ReactNode }) {
   return (
-    <span title="Vorläufig – wird vor dem Launch festgelegt" className="font-mono text-[0.86em] text-citrus-700">
+    <span title="Preliminary – to be confirmed before launch" className="font-mono text-[0.86em] text-gold-700">
       [{children}]
     </span>
   );

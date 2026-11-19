@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Confirmation } from "@/components/commerce/Confirmation";
 
-export const metadata: Metadata = { title: "Bestellbestätigung", robots: { index: false } };
+export const metadata: Metadata = { title: "Order confirmation", robots: { index: false } };
 
 export default function Page() {
   return (

@@ -27,7 +27,7 @@ export function CartLines({ compact = false, onNavigate }: { compact?: boolean; 
                   {l.product.flavor} · {l.variant.servings}
                 </p>
               </div>
-              <p className="font-mono text-[0.88rem] tabular-nums">{l.lineCents != null ? formatPrice(l.lineCents) : <Tbd>Preis folgt</Tbd>}</p>
+              <p className="font-mono text-[0.88rem] tabular-nums">{l.lineCents != null ? formatPrice(l.lineCents) : <Tbd>Price to follow</Tbd>}</p>
             </div>
             <div className="mt-auto flex items-center justify-between pt-4">
               <QtyStepper
@@ -35,10 +35,10 @@ export function CartLines({ compact = false, onNavigate }: { compact?: boolean; 
                 value={l.qty}
                 max={Math.min(shopConfig.maxQuantityPerLine, l.variant.stock ?? Infinity)}
                 onChange={(v) => setQty(l.variantId, v)}
-                label={`Menge ${l.product.name}`}
+                label={`Quantity ${l.product.name}`}
               />
               <button type="button" onClick={() => remove(l.variantId)} className="text-[0.82rem] text-ink-muted link-line hover:text-ink">
-                Entfernen
+                Remove
               </button>
             </div>
           </div>
@@ -58,14 +58,14 @@ export function CartSummary() {
   );
   return (
     <dl className="space-y-3">
-      {row("Zwischensumme", totals.subtotalCents != null ? formatPrice(totals.subtotalCents) : <Tbd>folgt</Tbd>)}
+      {row("Subtotal", totals.subtotalCents != null ? formatPrice(totals.subtotalCents) : <Tbd>to follow</Tbd>)}
       {row(
-        "Versand",
-        totals.shippingCents == null ? <Tbd>wird festgelegt</Tbd> : totals.shippingCents === 0 ? "kostenlos" : formatPrice(totals.shippingCents),
+        "Shipping",
+        totals.shippingCents == null ? <Tbd>to be confirmed</Tbd> : totals.shippingCents === 0 ? "free" : formatPrice(totals.shippingCents),
       )}
       <div className="border-t border-line" />
-      {row("Gesamt", totals.totalCents != null ? formatPrice(totals.totalCents) : <Tbd>folgt</Tbd>, true)}
-      <p className="text-[0.75rem] text-ink-muted">inkl. gesetzlicher MwSt.</p>
+      {row("Total", totals.totalCents != null ? formatPrice(totals.totalCents) : <Tbd>to follow</Tbd>, true)}
+      <p className="text-[0.75rem] text-ink-muted">Incl. VAT</p>
     </dl>
   );
 }

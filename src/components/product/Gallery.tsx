@@ -40,10 +40,10 @@ export function Gallery({ images, name }: { images: ProductImage[]; name: string
   };
 
   return (
-    <div role="region" aria-roledescription="Bildergalerie" aria-label={`Bilder von ${name}`} onKeyDown={onKey}>
+    <div role="region" aria-roledescription="gallery" aria-label={`Images of ${name}`} onKeyDown={onKey}>
       {/* Mobil: wischbare Bildleiste */}
       <div className="relative lg:hidden">
-        <div ref={trackRef} className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto" tabIndex={0} aria-label="Bilder – zum Wechseln wischen">
+        <div ref={trackRef} className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto" tabIndex={0} aria-label="Images – swipe to browse">
           {images.map((img, i) => (
             <div key={img.src} className="aspect-[4/5] w-full shrink-0 snap-center bg-sand" aria-hidden={i !== index}>
               <Picture name={img.src} alt={img.alt} width={img.width} height={img.height} sizes="100vw" priority={i === 0} />
@@ -57,7 +57,7 @@ export function Gallery({ images, name }: { images: ProductImage[]; name: string
                 key={img.src}
                 type="button"
                 onClick={() => go(i)}
-                aria-label={`Bild ${i + 1} von ${images.length}`}
+                aria-label={`Image ${i + 1} of ${images.length}`}
                 aria-current={i === index}
                 className="flex h-8 items-center"
               >
@@ -73,13 +73,13 @@ export function Gallery({ images, name }: { images: ProductImage[]; name: string
 
       {/* Desktop: Thumbnails + Hauptbild */}
       <div className="hidden gap-4 lg:grid lg:grid-cols-[5.5rem_1fr]">
-        <ul className="flex flex-col gap-3" aria-label="Bildauswahl">
+        <ul className="flex flex-col gap-3" aria-label="Choose image">
           {images.map((img, i) => (
             <li key={img.src}>
               <button
                 type="button"
                 onClick={() => setIndex(i)}
-                aria-label={`Bild ${i + 1} anzeigen`}
+                aria-label={`Show image ${i + 1}`}
                 aria-current={i === index}
                 className={`block aspect-[4/5] w-full overflow-hidden bg-sand transition-opacity duration-300 ${i === index ? "opacity-100 outline outline-1 outline-offset-2 outline-ink" : "opacity-55 hover:opacity-100"}`}
               >
@@ -88,7 +88,7 @@ export function Gallery({ images, name }: { images: ProductImage[]; name: string
             </li>
           ))}
         </ul>
-        <div className="relative aspect-[4/5] overflow-hidden bg-sand" tabIndex={0} aria-label="Hauptbild – Pfeiltasten wechseln das Bild">
+        <div className="relative aspect-[4/5] overflow-hidden bg-sand" tabIndex={0} aria-label="Main image – use arrow keys to browse">
           {images.map((img, i) => (
             <div
               key={img.src}
@@ -99,18 +99,18 @@ export function Gallery({ images, name }: { images: ProductImage[]; name: string
             </div>
           ))}
           <div className="absolute right-4 bottom-4 flex gap-2">
-            <button type="button" onClick={() => go(index - 1)} aria-label="Vorheriges Bild" className="flex h-11 w-11 items-center justify-center bg-ivory-50/85 backdrop-blur transition-colors hover:bg-ivory-50">
+            <button type="button" onClick={() => go(index - 1)} aria-label="Previous image" className="flex h-11 w-11 items-center justify-center bg-ivory-50/85 backdrop-blur transition-colors hover:bg-ivory-50">
               <svg aria-hidden="true" viewBox="0 0 24 12" className="h-3 w-6 rotate-180" fill="none" stroke="currentColor" strokeWidth="1.2">
                 <path d="M0 6h22M17 1l5 5-5 5" />
               </svg>
             </button>
-            <button type="button" onClick={() => go(index + 1)} aria-label="Nächstes Bild" className="flex h-11 w-11 items-center justify-center bg-ivory-50/85 backdrop-blur transition-colors hover:bg-ivory-50">
+            <button type="button" onClick={() => go(index + 1)} aria-label="Next image" className="flex h-11 w-11 items-center justify-center bg-ivory-50/85 backdrop-blur transition-colors hover:bg-ivory-50">
               <svg aria-hidden="true" viewBox="0 0 24 12" className="h-3 w-6" fill="none" stroke="currentColor" strokeWidth="1.2">
                 <path d="M0 6h22M17 1l5 5-5 5" />
               </svg>
             </button>
           </div>
-          <p className="spec absolute top-4 left-4 bg-ivory-50/80 px-2 py-1 text-ink-soft backdrop-blur">Konzeptvisualisierung</p>
+          <p className="spec absolute top-4 left-4 bg-ivory-50/80 px-2 py-1 text-ink-soft backdrop-blur">Concept visualisation</p>
         </div>
       </div>
     </div>

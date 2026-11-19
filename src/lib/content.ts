@@ -1,20 +1,18 @@
 /**
- * Zentrale Inhalte für ELORA DAY.
+ * Central content for ELORA DAY.
  *
- * WICHTIG: Rezeptur, Nährstoffmengen, Rohstoffformen und Kennzeichnung
- * befinden sich in Entwicklung. Alle Werte in eckigen Klammern sind
- * Platzhalter und müssen vor Veröffentlichung durch geprüfte Daten
- * (inkl. lebensmittelrechtlicher Prüfung) ersetzt werden.
+ * IMPORTANT: formulation, amounts, raw material forms and labelling are in
+ * development. Values in square brackets are placeholders and must be replaced
+ * with verified data (incl. legal review) before publication.
  *
- * Gesundheitsbezogene Angaben stammen wörtlich aus der Liste zugelassener
- * Angaben gemäß VO (EU) Nr. 432/2012. Sie dürfen nur verwendet werden,
- * wenn die finale Rezeptur die jeweiligen Bedingungen (i. d. R. mind. 15 %
- * des Nährstoffbezugswerts pro Portion) erfüllt.
+ * Health claims are quoted verbatim from the EU Register of authorised claims
+ * (Regulation (EU) No 432/2012). They may only be used if the final formulation
+ * meets the conditions of use (as a rule at least 15 % NRV per serving).
  */
 
 export type Ingredient = {
   symbol: string;
-  group: "Elektrolyt" | "Vitamin";
+  group: "Electrolyte" | "Vitamin";
   name: string;
   optional?: boolean;
   role: string;
@@ -25,161 +23,153 @@ export type Ingredient = {
 export const ingredients: Ingredient[] = [
   {
     symbol: "K",
-    group: "Elektrolyt",
-    name: "Kalium",
-    role: "Mineralstoff und einer der wichtigsten Elektrolyte des Körpers.",
-    claims: [
-      "Kalium trägt zur Aufrechterhaltung eines normalen Blutdrucks bei.",
-      "Kalium trägt zu einer normalen Muskelfunktion bei.",
-    ],
+    group: "Electrolyte",
+    name: "Potassium",
+    role: "A mineral and one of the body’s main electrolytes.",
+    claims: ["Potassium contributes to the maintenance of normal blood pressure.", "Potassium contributes to normal muscle function."],
   },
   {
     symbol: "Mg",
-    group: "Elektrolyt",
+    group: "Electrolyte",
     name: "Magnesium",
-    role: "Mineralstoff, der an zahlreichen Prozessen im Körper beteiligt ist.",
-    claims: [
-      "Magnesium trägt zum Elektrolytgleichgewicht bei.",
-      "Magnesium trägt zur Verringerung von Müdigkeit und Ermüdung bei.",
-    ],
+    role: "A mineral involved in many processes in the body.",
+    claims: ["Magnesium contributes to electrolyte balance.", "Magnesium contributes to the reduction of tiredness and fatigue."],
   },
   {
     symbol: "Na",
-    group: "Elektrolyt",
-    name: "Natrium",
-    role: "Mineralstoff und Elektrolyt, der natürlicherweise in vielen Lebensmitteln vorkommt.",
+    group: "Electrolyte",
+    name: "Sodium",
+    role: "A mineral and electrolyte that occurs naturally in many foods.",
     claims: [],
-    note: "Für Natrium existiert keine zugelassene gesundheitsbezogene Angabe – wir verzichten deshalb bewusst auf Wirkaussagen.",
+    note: "There is no authorised health claim for sodium, so we deliberately make no claims about it.",
   },
   {
     symbol: "C",
     group: "Vitamin",
     name: "Vitamin C",
-    role: "Wasserlösliches Vitamin, klassisch verbunden mit Citrusfrüchten.",
-    claims: [
-      "Vitamin C trägt zu einer normalen Funktion des Immunsystems bei.",
-      "Vitamin C trägt zur Verringerung von Müdigkeit und Ermüdung bei.",
-    ],
+    role: "A water-soluble vitamin, classically associated with citrus fruit.",
+    claims: ["Vitamin C contributes to the normal function of the immune system.", "Vitamin C contributes to the reduction of tiredness and fatigue."],
   },
   {
     symbol: "B12",
     group: "Vitamin",
     name: "Vitamin B12",
     optional: true,
-    role: "Wasserlösliches Vitamin. Ob es Teil der finalen Rezeptur wird, ist noch offen.",
-    claims: ["Vitamin B12 trägt zu einem normalen Energiestoffwechsel bei."],
+    role: "A water-soluble vitamin. Whether it becomes part of the final formulation is still open.",
+    claims: ["Vitamin B12 contributes to normal energy-yielding metabolism."],
   },
 ];
 
 export type FaqItem = {
   q: string;
-  /** "fixed" = festgelegter Konzeptgrundsatz, "preliminary" = vorläufig */
+  /** "fixed" = confirmed principle, "preliminary" = may change, "planned" = intention */
   status: "fixed" | "preliminary" | "planned";
   a: string[];
 };
 
 export const faq: FaqItem[] = [
   {
-    q: "Was ist ELORA DAY?",
+    q: "What is ELORA DAY?",
     status: "fixed",
     a: [
-      "ELORA DAY ist das erste Produkt von ELORA: ein Getränkepulver, das mit Wasser angerührt wird und für die morgendliche Anwendung gedacht ist. Es kombiniert ausgewählte Elektrolyte und Mikronährstoffe mit einem erfrischenden Citrus-Ingwer-Geschmack.",
-      "Das Produkt befindet sich aktuell in der Entwicklung und ist noch nicht erhältlich.",
+      "ELORA DAY is the first product from ELORA: a citrus ginger drink powder that you mix with water, designed for your morning ritual. It combines selected electrolytes and micronutrients.",
+      "The product is currently in development and not yet available.",
     ],
   },
   {
-    q: "Welche Inhaltsstoffe sind enthalten?",
+    q: "Which ingredients does it contain?",
     status: "preliminary",
     a: [
-      "Geplant sind die Elektrolyte Kalium, Magnesium und Natrium sowie Vitamin C. Ob zusätzlich Vitamin B12 enthalten sein wird, ist noch offen. Für den Geschmack setzen wir auf Citrus mit einer dezenten Ingwernote und eine möglichst natürliche Rezeptur.",
-      "Die endgültige Rezeptur, die Nährstoffmengen und die Rohstoffformen werden derzeit entwickelt. Sobald sie feststehen, veröffentlichen wir die vollständige Zutatenliste und Nährwerttabelle.",
+      "Planned are the electrolytes potassium, magnesium and sodium, plus vitamin C. Whether vitamin B12 will be included is still open. For the flavour we use citrus with a gentle note of ginger.",
+      "The final formulation, amounts and raw material forms are in development. As soon as they are confirmed, we will publish the full ingredient list and nutrition table.",
     ],
   },
   {
-    q: "Enthält ELORA DAY Koffein?",
+    q: "Does ELORA DAY contain caffeine?",
     status: "fixed",
-    a: [
-      "Nein. ELORA DAY wird bewusst ohne Koffein und ohne Taurin entwickelt. Auch auf unnötige künstliche Zusätze möchten wir verzichten.",
-    ],
+    a: ["No. ELORA DAY is developed without caffeine and without taurine. We also avoid unnecessary artificial additives."],
   },
   {
-    q: "Wie wird ELORA DAY zubereitet?",
+    q: "How do I prepare it?",
     status: "preliminary",
     a: [
-      "Eine Portion Pulver wird in kaltem Wasser aufgelöst, kurz umgerührt – fertig.",
-      "Die genaue Portionsgröße und die empfohlene Wassermenge legen wir mit der finalen Rezeptur fest. Bis dahin gilt: Portion [— g] auf [— ml] Wasser.",
+      "Prepare a glass of cold water, add one serving of ELORA DAY and stir.",
+      "Serving size and the recommended amount of water will be set with the final formulation: [— g] in [— ml] water.",
     ],
   },
   {
-    q: "Für wen ist das Produkt gedacht?",
+    q: "Who is it for?",
     status: "preliminary",
     a: [
-      "ELORA DAY richtet sich an Erwachsene, die ihren Morgen bewusst gestalten und ihre Ernährung im Alltag unkompliziert ergänzen möchten.",
-      "Konkrete Verzehrempfehlungen und Hinweise – etwa für Schwangere, Stillende oder bei der Einnahme von Medikamenten – werden mit der finalen Kennzeichnung festgelegt. Im Zweifel empfehlen wir Rücksprache mit einer Ärztin oder einem Arzt.",
+      "ELORA DAY is intended for adults who want to begin their day with intention and complement their everyday diet in a simple way.",
+      "Specific recommendations and notices – for example during pregnancy, breastfeeding or when taking medication – will be set with the final labelling. If in doubt, please ask your doctor.",
     ],
   },
   {
-    q: "Wann erscheint ELORA DAY?",
+    q: "When will ELORA DAY be available?",
     status: "planned",
-    a: [
-      "Der Markteintritt ist derzeit für das Frühjahr 2027 geplant. Wenn du dich vormerkst, informieren wir dich, sobald es Neuigkeiten gibt – ganz ohne Verpflichtung.",
-    ],
+    a: ["The launch is currently planned for spring 2027. Join the launch list and we will let you know – with no obligation."],
   },
   {
-    q: "Kann ich ELORA DAY schon kaufen oder vorbestellen?",
+    q: "Can I already buy or pre-order?",
     status: "fixed",
     a: [
-      "Noch nicht. Solange Rezeptur, Preis, Lieferbedingungen und alle rechtlichen Angaben nicht feststehen, ist keine Bestellung möglich – auch keine bezahlte Vorbestellung. Du kannst dich aber unverbindlich vormerken und wirst informiert, sobald sich das ändert.",
+      "Not yet. As long as formulation, price, delivery terms and all legal information are not final, no order is possible – including paid pre-orders. You can join the launch list without obligation.",
     ],
   },
   {
-    q: "Wie viele Portionen enthält eine Verpackung?",
+    q: "How many servings are in one pack?",
     status: "preliminary",
-    a: [
-      "Geplant ist eine Verpackung mit etwa 30 Portionen – also ungefähr ein Monat bei täglicher Anwendung. Füllmenge und Verpackungsformat werden mit der finalen Rezeptur bestätigt.",
-    ],
+    a: ["The number of servings per pack has not been finalised yet. Fill quantity and packaging format will be confirmed with the final formulation."],
   },
 ];
 
 export const faqStatusLabel: Record<FaqItem["status"], string> = {
-  fixed: "Festgelegt",
-  preliminary: "Vorläufig",
-  planned: "Geplant",
+  fixed: "Confirmed",
+  preliminary: "Preliminary",
+  planned: "Planned",
 };
 
-/** Transparenzprotokoll: was feststeht und woran gearbeitet wird. */
+/** Transparency record: what is confirmed and what is still in progress. */
 export type ProtocolEntry = { area: string; commitment: string; status: "fixed" | "in-progress" | "before-launch" };
 
 export const protocol: ProtocolEntry[] = [
   {
-    area: "Rohstoffauswahl",
-    commitment: "Jeder Rohstoff wird nach Qualität, Herkunft und Eignung für die Rezeptur ausgewählt. Rohstoffformen legen wir mit der finalen Rezeptur offen.",
+    area: "Raw materials",
+    commitment: "Each raw material is selected for quality, origin and suitability. Raw material forms will be disclosed with the final formulation.",
     status: "in-progress",
   },
   {
-    area: "Produktentwicklung",
-    commitment: "Eine kurze Zutatenliste. Jede Zutat muss ihren Platz begründen – ohne Koffein, ohne Taurin, ohne unnötige Zusätze.",
+    area: "Formulation",
+    commitment: "A short ingredient list. Every ingredient has to earn its place – without caffeine, without taurine, without unnecessary additives.",
     status: "fixed",
   },
   {
-    area: "Qualitätskontrollen",
-    commitment: "Art und Umfang der Kontrollen legen wir gemeinsam mit unserem Herstellungspartner fest. Ergebnisse veröffentlichen wir erst, wenn sie vorliegen.",
+    area: "Quality controls",
+    commitment: "Type and scope of controls are being defined with our manufacturing partner. We publish results only once they exist.",
     status: "before-launch",
   },
   {
-    area: "Transparenz",
-    commitment: "Zutaten, Mengen pro Portion und Nährstoffbezugswerte stehen vollständig auf der Produktseite, sobald sie final sind.",
+    area: "Transparency",
+    commitment: "Ingredients, amounts per serving and reference intakes will be listed in full on the product page as soon as they are final.",
     status: "before-launch",
   },
   {
-    area: "Verantwortungsbewusste Formulierung",
-    commitment: "Gesundheitsbezogene Aussagen nur im Rahmen der zugelassenen EU-Angaben – und nur, wenn die Rezeptur die Bedingungen erfüllt.",
+    area: "Responsible claims",
+    commitment: "Health-related statements only within the authorised EU claims – and only if the formulation meets the conditions.",
     status: "fixed",
   },
 ];
 
 export const protocolStatus: Record<ProtocolEntry["status"], string> = {
-  fixed: "Festgelegt",
-  "in-progress": "In Arbeit",
-  "before-launch": "Folgt vor Launch",
+  fixed: "Confirmed",
+  "in-progress": "In progress",
+  "before-launch": "Before launch",
 };
+
+/** Morning ritual – three steps (a real sequence). */
+export const ritual = [
+  { n: "01", title: "Prepare", text: "Prepare your glass of water.", image: "ritual-prepare", alt: "Concept visualisation: a glass of clear water on a light wooden board in morning light" },
+  { n: "02", title: "Mix", text: "Add ELORA DAY and stir.", image: "ritual-mix", alt: "Concept visualisation: drink powder in a ceramic dish, a wooden spoon and a glass on linen" },
+  { n: "03", title: "Begin", text: "Enjoy your daily morning ritual.", image: "ritual-begin", alt: "Concept visualisation: a glass of ELORA DAY with ice next to a halved citrus fruit" },
+] as const;

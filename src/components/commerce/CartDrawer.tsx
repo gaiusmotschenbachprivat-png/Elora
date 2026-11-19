@@ -19,7 +19,7 @@ export function CartDrawer() {
       <button
         type="button"
         tabIndex={-1}
-        aria-label="Warenkorb schließen"
+        aria-label="Close cart"
         onClick={closeDrawer}
         className={`absolute inset-0 bg-ink/25 backdrop-blur-[2px] transition-opacity duration-500 ${drawerOpen ? "opacity-100" : "opacity-0"}`}
       />
@@ -35,18 +35,18 @@ export function CartDrawer() {
       >
         <div className="flex items-center justify-between border-b border-line px-6 py-5 sm:px-8">
           <h2 id="drawer-title" className="font-display text-[1.6rem] leading-none">
-            Warenkorb <span className="font-mono text-[0.8rem] align-middle text-ink-muted">({totals.itemCount})</span>
+            Cart <span className="font-mono text-[0.8rem] align-middle text-ink-muted">({totals.itemCount})</span>
           </h2>
-          <button type="button" onClick={closeDrawer} className="-mr-2 flex h-11 w-11 items-center justify-center" aria-label="Warenkorb schließen">
+          <button type="button" onClick={closeDrawer} className="-mr-2 flex h-11 w-11 items-center justify-center" aria-label="Close cart">
             <IconClose />
           </button>
         </div>
 
         {lines.length === 0 ? (
           <div className="flex flex-1 flex-col overflow-y-auto px-6 py-8 sm:px-8">
-            <p className="font-display text-[1.9rem] leading-tight">Noch leer.</p>
+            <p className="font-display text-[1.9rem] leading-tight">Still empty.</p>
             <p className="mt-3 max-w-xs text-[0.95rem] leading-relaxed text-ink-soft">
-              ELORA DAY befindet sich in der Entwicklung. Du kannst dich jetzt für den Launch vormerken.
+              ELORA DAY is in development. You can join the launch list now.
             </p>
             <Link href="/produkte/elora-day/" onClick={closeDrawer} className="group mt-8 block">
               <div className="aspect-[4/5] overflow-hidden bg-sand">
@@ -54,7 +54,7 @@ export function CartDrawer() {
               </div>
               <p className="mt-4 flex items-baseline justify-between">
                 <span className="font-display text-[1.4rem]">ELORA DAY</span>
-                <span className="text-[0.85rem] link-line">Entdecken</span>
+                <span className="text-[0.85rem] link-line">Discover</span>
               </p>
             </Link>
           </div>
@@ -67,10 +67,10 @@ export function CartDrawer() {
               <CartSummary />
               <div className="mt-6 grid gap-3">
                 <LinkButton href="/kasse/" size="lg" arrow onClick={closeDrawer}>
-                  Zur Kasse
+                  Checkout
                 </LinkButton>
                 <Link href="/warenkorb/" onClick={closeDrawer} className="text-center text-[0.85rem] text-ink-soft link-line mx-auto">
-                  Warenkorb ansehen
+                  View cart
                 </Link>
               </div>
             </div>

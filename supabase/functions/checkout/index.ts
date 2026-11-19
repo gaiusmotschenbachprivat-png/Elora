@@ -30,19 +30,19 @@ Deno.serve(async (req) => {
 
   // Betreiber-Freigabe: Checkout erst nach Prüfung von Recht, Preis und Lieferbedingungen aktivieren
   if (env("CHECKOUT_ENABLED") !== "true" || !env("STRIPE_SECRET_KEY") || !env("SITE_URL")) {
-    return json(req, 503, { message: "Der Checkout ist noch nicht aktiviert. Es wurde keine Bestellung ausgelöst." });
+    return json(req, 503, { message: "Checkout is not activated yet. No order has been placed." });
   }
 
   let body: Record<string, unknown>;
   try {
     body = await req.json();
   } catch {
-    return json(req, 400, { message: "Ungültige Anfrage." });
+    return json(req, 400, { message: "Invalid request." });
   }
 
   const items = Array.isArray(body.items) ? (body.items as Item[]) : [];
   if (!items.length || items.length > 20 || items.some((i) => typeof i.variantId !== "string" || !Number.isInteger(i.qty) || i.qty < 1 || i.qty > MAX_QTY)) {
-    return json(req, 422, { message: "Der Warenkorb ist ungültig." });
+    return json(req, 422, { message: "The cart is invalid." });
   }
 
   const db = adminClient();
@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
     .from("product_variants")
     .select("id, name, price_cents, net_weight_grams, stock, active, products(id, name, sales_mode, active)")
     .in("id", items.map((i) => i.variantId));
-  if (vErr) return json(req, 500, { message: "Produkte konnten nicht geladen werden." });
+  if (vErr) return json(req, 500, { message: "Products could not be loaded." });
 
   const lines = [];
   const kinds = new Set<string>();
@@ -60,20 +60,20 @@ Deno.serve(async (req) => {
     const v = (variants ?? []).find((x) => x.id === it.variantId) as
       | { id: string; name: string; price_cents: number | null; net_weight_grams: number | null; stock: number | null; active: boolean; products: { id: string; name: string; sales_mode: string; active: boolean } }
       | undefined;
-    if (!v || !v.active || !v.products?.active) return json(req, 422, { message: "Ein Artikel ist nicht mehr verfügbar." });
-    if (v.products.sales_mode === "launch") return json(req, 422, { message: `${v.products.name} ist noch nicht bestellbar.` });
-    if (v.price_cents == null || !v.net_weight_grams) return json(req, 422, { message: `Für ${v.products.name} ist noch kein Preis festgelegt.` });
-    if (v.stock != null && v.stock < it.qty) return json(req, 409, { message: `Von ${v.products.name} sind nur noch ${v.stock} Stück verfügbar.` });
+    if (!v || !v.active || !v.products?.active) return json(req, 422, { message: "An item is no longer available." });
+    if (v.products.sales_mode === "launch") return json(req, 422, { message: `${v.products.name} cannot be ordered yet.` });
+    if (v.price_cents == null || !v.net_weight_grams) return json(req, 422, { message: `No price has been set for ${v.products.name} yet.` });
+    if (v.stock != null && v.stock < it.qty) return json(req, 409, { message: `Only ${v.stock} of ${v.products.name} are available.` });
     kinds.add(v.products.sales_mode === "preorder" ? "preorder" : "order");
     lines.push({ variantId: v.id, name: `${v.products.name} – ${v.name}`, qty: it.qty, unit: v.price_cents, line: v.price_cents * it.qty });
   }
-  if (kinds.size > 1) return json(req, 422, { message: "Bitte bestelle vorbestellbare und sofort lieferbare Artikel getrennt." });
+  if (kinds.size > 1) return json(req, 422, { message: "Please order pre-order items and items available now separately." });
   const kind = [...kinds][0] as "order" | "preorder";
 
   const country = (body.shippingAddress as Address | undefined)?.country ?? (typeof body.country === "string" ? body.country : "DE");
   const { data: method } = await db.from("shipping_methods").select("*").eq("id", String(body.shippingMethod ?? "")).eq("active", true).maybeSingle();
   if (!method || method.price_cents == null || !(method.countries as string[]).includes(country)) {
-    return json(req, 422, { message: "Diese Versandart ist für das gewählte Land nicht verfügbar." });
+    return json(req, 422, { message: "This shipping method is not available for the selected country." });
   }
 
   const subtotal = lines.reduce((s, l) => s + l.line, 0);
@@ -100,13 +100,13 @@ Deno.serve(async (req) => {
   const quote = { subtotalCents: subtotal, shippingCents: shipping, discountCents: discount, totalCents: total, couponCode };
 
   if (body.action === "quote") return json(req, 200, { quote });
-  if (body.action !== "create") return json(req, 400, { message: "Unbekannte Aktion." });
+  if (body.action !== "create") return json(req, 400, { message: "Unknown action." });
 
   // Bestellung anlegen
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
-  if (!EMAIL_RE.test(email)) return json(req, 422, { message: "Bitte gib eine gültige E-Mail-Adresse ein." });
-  if (!validAddress(body.shippingAddress) || !validAddress(body.billingAddress)) return json(req, 422, { message: "Bitte prüfe die Adressangaben." });
-  if (body.acceptTerms !== true) return json(req, 422, { message: "Bitte bestätige AGB und Widerrufsbelehrung." });
+  if (!EMAIL_RE.test(email)) return json(req, 422, { message: "Please enter a valid email address." });
+  if (!validAddress(body.shippingAddress) || !validAddress(body.billingAddress)) return json(req, 422, { message: "Please check the address details." });
+  if (body.acceptTerms !== true) return json(req, 422, { message: "Please confirm the terms (AGB) and the cancellation policy (Widerrufsbelehrung)." });
 
   const user = await userFromRequest(req);
   const { data: order, error: oErr } = await db
@@ -129,7 +129,7 @@ Deno.serve(async (req) => {
     .single();
   if (oErr || !order) {
     console.error("[checkout] order", oErr);
-    return json(req, 500, { message: "Die Bestellung konnte nicht angelegt werden. Es wurde nichts berechnet." });
+    return json(req, 500, { message: "The order could not be created. You have not been charged." });
   }
   await db.from("order_items").insert(lines.map((l) => ({ order_id: order.id, variant_id: l.variantId, name: l.name, qty: l.qty, unit_cents: l.unit, line_cents: l.line })));
 
@@ -166,6 +166,6 @@ Deno.serve(async (req) => {
   } catch (e) {
     console.error("[checkout] stripe", e);
     await db.from("orders").update({ status: "cancelled" }).eq("id", order.id);
-    return json(req, 502, { message: "Die Zahlungsseite konnte nicht geöffnet werden. Es wurde nichts berechnet." });
+    return json(req, 502, { message: "The payment page could not be opened. You have not been charged." });
   }
 });
